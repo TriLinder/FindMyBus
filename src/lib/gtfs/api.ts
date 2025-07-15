@@ -4,7 +4,7 @@ import { unzipSync, strFromU8 } from 'fflate';
 import Papa from 'papaparse';
 import GtfsRealtimeBindings from "gtfs-realtime-bindings";
 
-import type { Stop, Route } from './types';
+import type { Stop, Route, Trip } from './types';
 
 function base64ToUint8Array(base64: string): Uint8Array {
     const binaryString = window.atob(base64);
@@ -50,6 +50,12 @@ type RoutesFile = {
     route_text_color: string | undefined;
 }[];
 
+type TripsFile = {
+    trip_id: string;
+    route_id: string;
+    trip_headsign: string | undefined;
+}[];
+
 export async function getStaticGtfs(url: string) {
     // fetch the GTFS static file, which is a zip file
     const options: HttpOptions = {
@@ -83,7 +89,7 @@ export async function getStaticGtfs(url: string) {
     const stopsFile = parseUnzipedCsvFile(files['stops.txt']) as StopsFile;
     console.log(`Stops: ${stopsFile.length}`);
 
-    const stops: Stop[] = [];
+    const stops: Record<string, Stop> = {};
 
     for (const record of stopsFile) {
         const locationTypeMap = {
@@ -95,7 +101,7 @@ export async function getStaticGtfs(url: string) {
         } as const;
 
 
-        stops.push({
+        stops[record.stop_id] = {
             id: record.stop_id,
             name: record.stop_name,
             location: {
@@ -104,14 +110,14 @@ export async function getStaticGtfs(url: string) {
             },
             type: locationTypeMap[record.location_type as keyof typeof locationTypeMap],
             parentStopId: record.parent_station || null
-        });
+        };
     }
 
     // parse routes
     const routesFile = parseUnzipedCsvFile(files['routes.txt']) as RoutesFile;
     console.log(`Routes: ${routesFile.length}`);
 
-    const routes: Route[] = [];
+    const routes: Record<string, Route> = {};
 
     for (const record of routesFile) {
         const routeTypeMap = {
@@ -127,7 +133,7 @@ export async function getStaticGtfs(url: string) {
             '9': 'monorail'
         } as const;
 
-        routes.push({
+        routes[record.route_id] = {
             id: record.route_id,
             name: {
                 short: record.route_short_name || null,
@@ -138,8 +144,24 @@ export async function getStaticGtfs(url: string) {
                 generic: record.route_color || null,
                 text: record.route_text_color || null
             }
-        });
+        };
     }
+
+    // parse trips
+    const tripsFile = parseUnzipedCsvFile(files['trips.txt']) as TripsFile;
+    console.log(`Trips: ${tripsFile.length}`);
+
+    const trips: Record<string, Trip> = {};
+
+    for (const record of tripsFile) {
+        trips[record.trip_id] = {
+            id: record.trip_id,
+            routeId: record.route_id,
+            headsign: record.trip_headsign || null
+        };
+    }
+
+    console.log(trips[0]);
 }
 
 export async function getRealtimeGtfs(url: string) {

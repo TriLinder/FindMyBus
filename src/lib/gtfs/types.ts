@@ -23,3 +23,9 @@ export type Route = {
         text: string | null;
     }
 }
+
+export type Trip = {
+    id: string;
+    routeId: string;
+    headsign: string | null;
+}
