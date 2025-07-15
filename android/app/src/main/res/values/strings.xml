@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">gtfs-realtime-map</string>
+    <string name="title_activity_main">gtfs-realtime-map</string>
+    <string name="package_name">com.jakubhlavacek.gtfsrealtimemap</string>
+    <string name="custom_url_scheme">com.jakubhlavacek.gtfsrealtimemap</string>
+</resources>

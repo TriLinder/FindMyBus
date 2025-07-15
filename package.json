@@ -1,0 +1,32 @@
+{
+	"name": "gtfs-realtime-map",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+	},
+	"devDependencies": {
+		"@capacitor/cli": "^7.2.0",
+		"@sveltejs/adapter-auto": "^6.0.0",
+		"@sveltejs/kit": "^2.16.0",
+		"@sveltejs/vite-plugin-svelte": "^5.0.0",
+		"@types/papaparse": "^5.3.16",
+		"svelte": "^5.0.0",
+		"svelte-check": "^4.0.0",
+		"typescript": "^5.0.0",
+		"vite": "^6.2.6"
+	},
+	"dependencies": {
+		"@capacitor/android": "^7.4.2",
+		"@capacitor/core": "^7.2.0",
+		"fflate": "^0.8.2",
+		"papaparse": "^5.5.3",
+		"svelte-capacitor-store": "^0.3.6"
+	}
+}

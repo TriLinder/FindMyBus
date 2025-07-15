@@ -1,0 +1,142 @@
+import { CapacitorHttp } from '@capacitor/core';
+import type { HttpOptions, HttpResponse } from '@capacitor/core';
+import { unzipSync, strFromU8 } from 'fflate';
+import Papa from 'papaparse';
+
+import type { Stop, Route } from './types';
+
+function base64ToUint8Array(base64: string): Uint8Array {
+    const binaryString = window.atob(base64);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes;
+}
+
+function parseUnzipedCsvFile(fileData: Uint8Array): Array<Record<string, string | number>> {
+    const string = strFromU8(fileData);
+    const parsed = Papa.parse(string, {header: true, skipEmptyLines: true, dynamicTyping: true});
+    return parsed.data as Array<Record<string, string>>;
+}
+
+// The types here aren't perfect, as some of these fields are optional in the GTFS spec.
+// However, these are the fields this app expects, and there should be better error-handling
+// in the future.
+
+type AgencyFile = {
+    agency_name: string;
+    agency_url: string;
+    agency_timezone: string;
+}[];
+
+type StopsFile = {
+    stop_id: string;
+    stop_name: string;
+    stop_lat: number;
+    stop_lon: number;
+    location_type: number;
+    parent_station: string;
+}[];
+
+type RoutesFile = {
+    route_id: string;
+    route_short_name: string | undefined;
+    route_long_name: string | undefined;
+    route_type: string;
+    route_color: string | undefined;
+    route_text_color: string | undefined;
+}[];
+
+export async function getStaticGtfs(url: string) {
+    // fetch the GTFS static file, which is a zip file
+    const options: HttpOptions = {
+        url: url,
+        responseType: 'blob',
+        connectTimeout: 10000,
+        readTimeout: 10000
+    }
+
+    const response: HttpResponse = await CapacitorHttp.get(options);
+    console.log(`GTFS static data received. Size: ${response.data.length / (1024 * 1024)} MB`);
+
+    // unzip it
+    const files = unzipSync(base64ToUint8Array(response.data));
+    console.log(`Unzipped, found ${Object.keys(files).length} files.`);
+
+    // assert we've got the necessary files
+    const expectedFiles = ['agency.txt', 'stops.txt'];
+
+    for (const file of expectedFiles) {
+        if (!files[file]) {
+            throw new Error(`Expected file ${file} not found in GTFS static data.`);
+        }
+    }
+
+    // get agency name
+    const agencyName = (parseUnzipedCsvFile(files['agency.txt']) as AgencyFile)[0].agency_name;
+    console.log(`Agency: ${agencyName}`);
+
+    // parse stops
+    const stopsFile = parseUnzipedCsvFile(files['stops.txt']) as StopsFile;
+    console.log(`Stops: ${stopsFile.length}`);
+
+    const stops: Stop[] = [];
+
+    for (const record of stopsFile) {
+        const locationTypeMap = {
+            0: 'stop',
+            1: 'station',
+            2: 'door',
+            3: 'generic',
+            4: 'boardingArea',
+        } as const;
+
+
+        stops.push({
+            id: record.stop_id,
+            name: record.stop_name,
+            location: {
+                latitude: record.stop_lat,
+                longitude: record.stop_lon
+            },
+            type: locationTypeMap[record.location_type as keyof typeof locationTypeMap],
+            parentStopId: record.parent_station || null
+        });
+    }
+
+    // parse routes
+    const routesFile = parseUnzipedCsvFile(files['routes.txt']) as RoutesFile;
+    console.log(`Routes: ${routesFile.length}`);
+
+    const routes: Route[] = [];
+
+    for (const record of routesFile) {
+        const routeTypeMap = {
+            '0': 'tram',
+            '1': 'subway',
+            '2': 'train',
+            '3': 'bus',
+            '4': 'ferry',
+            '5': 'cableTram',
+            '6': 'cableCar',
+            '7': 'funicular',
+            '8': 'trolleybus',
+            '9': 'monorail'
+        } as const;
+
+        routes.push({
+            id: record.route_id,
+            name: {
+                short: record.route_short_name || null,
+                long: record.route_long_name || null
+            },
+            type: routeTypeMap[record.route_type as keyof typeof routeTypeMap],
+            color: {
+                generic: record.route_color || null,
+                text: record.route_text_color || null
+            }
+        });
+    }
+}
