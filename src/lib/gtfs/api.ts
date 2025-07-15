@@ -4,7 +4,7 @@ import { unzipSync, strFromU8 } from 'fflate';
 import Papa from 'papaparse';
 import GtfsRealtimeBindings from "gtfs-realtime-bindings";
 
-import type { Stop, Route, Trip } from './types';
+import type { Stop, Route, Trip, Vehicle } from './types';
 
 function base64ToUint8Array(base64: string): Uint8Array {
     const binaryString = window.atob(base64);
@@ -160,8 +160,6 @@ export async function getStaticGtfs(url: string) {
             headsign: record.trip_headsign || null
         };
     }
-
-    console.log(trips[0]);
 }
 
 export async function getRealtimeGtfs(url: string) {
@@ -182,5 +180,26 @@ export async function getRealtimeGtfs(url: string) {
     // get the feed's timestamp
     const feedTimestamp = feed.header.timestamp as number * 1000;
 
-    console.log(JSON.stringify(feed.entity));
+    // parse vehicles
+    const vehicles: Vehicle[] = [];
+
+    for (const entity of feed.entity) {
+        if (entity.vehicle) {
+            const vehicle = entity.vehicle;
+            vehicles.push({
+                id: entity.id,
+                tripId: entity.vehicle.trip && entity.vehicle.trip.tripId ? entity.vehicle.trip.tripId : null,
+                position: vehicle.position?.latitude && vehicle.position?.longitude ? {
+                    location: {
+                        latitude: vehicle.position?.latitude,
+                        longitude: vehicle.position?.longitude
+                    },
+                    bearing: vehicle.position?.bearing || null,
+                    speed: vehicle.position?.speed || null // Speed in meters per second
+                } : null
+            });
+        }
+    }
+
+    console.log(`Parsed ${vehicles.length} vehicles from GTFS realtime feed.`);;
 }

@@ -29,3 +29,13 @@ export type Trip = {
     routeId: string;
     headsign: string | null;
 }
+
+export type Vehicle = {
+    id: string;
+    tripId: string | null;
+    position: {
+        location: Location;
+        bearing: number | null;
+        speed: number | null; // Speed in meters per second
+    } | null;
+}
