@@ -2,6 +2,7 @@ import { CapacitorHttp } from '@capacitor/core';
 import type { HttpOptions, HttpResponse } from '@capacitor/core';
 import { unzipSync, strFromU8 } from 'fflate';
 import Papa from 'papaparse';
+import GtfsRealtimeBindings from "gtfs-realtime-bindings";
 
 import type { Stop, Route } from './types';
 
@@ -54,8 +55,8 @@ export async function getStaticGtfs(url: string) {
     const options: HttpOptions = {
         url: url,
         responseType: 'blob',
-        connectTimeout: 10000,
-        readTimeout: 10000
+        connectTimeout: 4000,
+        readTimeout: 4000
     }
 
     const response: HttpResponse = await CapacitorHttp.get(options);
@@ -139,4 +140,25 @@ export async function getStaticGtfs(url: string) {
             }
         });
     }
+}
+
+export async function getRealtimeGtfs(url: string) {
+    // fetch the GTFS realtime file, which is a protobuf file
+    const options: HttpOptions = {
+        url: url,
+        responseType: 'arraybuffer',
+        connectTimeout: 4000,
+        readTimeout: 4000
+    }
+
+    const response: HttpResponse = await CapacitorHttp.get(options);
+    console.log(`GTFS realtime data received. Size: ${response.data.length / (1024 * 1024)} MB`);
+
+    const feed = GtfsRealtimeBindings.transit_realtime.FeedMessage.decode(base64ToUint8Array(response.data));
+    console.log(`GTFS realtime feed contains ${feed.entity.length} entities.`);
+
+    // get the feed's timestamp
+    const feedTimestamp = feed.header.timestamp as number * 1000;
+
+    console.log(JSON.stringify(feed.entity));
 }
