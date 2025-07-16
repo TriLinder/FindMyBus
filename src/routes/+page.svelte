@@ -1,14 +1,14 @@
 <script lang="ts">;
-    import { getStaticGtfs, getRealtimeGtfs } from "$lib/gtfs/api";
+    import { fetchStaticGtfs, fetchRealtimeGtfs } from "$lib/gtfs/api";
 
     let type: 'static' | 'realtime' = "realtime";
     let url: string;
 
     async function click() {
         if (type === 'static') {
-            await getStaticGtfs(url);
+            await fetchStaticGtfs(url);
         } else {
-            await getRealtimeGtfs(url);
+            await fetchRealtimeGtfs(url);
         }
     }
 </script>

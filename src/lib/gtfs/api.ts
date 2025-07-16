@@ -4,6 +4,7 @@ import { unzipSync, strFromU8 } from 'fflate';
 import Papa from 'papaparse';
 import GtfsRealtimeBindings from "gtfs-realtime-bindings";
 
+import { staticGtfsDataStore, realtimeGtfsDataStore } from '../../stores';
 import type { Stop, Route, Trip, Vehicle } from './types';
 
 function base64ToUint8Array(base64: string): Uint8Array {
@@ -56,7 +57,7 @@ type TripsFile = {
     trip_headsign: string | undefined;
 }[];
 
-export async function getStaticGtfs(url: string) {
+export async function fetchStaticGtfs(url: string) {
     // fetch the GTFS static file, which is a zip file
     const options: HttpOptions = {
         url: url,
@@ -160,9 +161,19 @@ export async function getStaticGtfs(url: string) {
             headsign: record.trip_headsign || null
         };
     }
+
+    // save the parsed info
+    staticGtfsDataStore.set({
+        dataTypeVersion: 0,
+        timestamp: new Date().toString(),
+        agencyName: agencyName,
+        stops: stops,
+        routes: routes,
+        trips: trips
+    });
 }
 
-export async function getRealtimeGtfs(url: string) {
+export async function fetchRealtimeGtfs(url: string) {
     // fetch the GTFS realtime file, which is a protobuf file
     const options: HttpOptions = {
         url: url,
@@ -178,7 +189,7 @@ export async function getRealtimeGtfs(url: string) {
     console.log(`GTFS realtime feed contains ${feed.entity.length} entities.`);
 
     // get the feed's timestamp
-    const feedTimestamp = feed.header.timestamp as number * 1000;
+    const feedTimestamp = new Date(feed.header.timestamp as number * 1000).toString();
 
     // parse vehicles
     const vehicles: Vehicle[] = [];
@@ -201,5 +212,12 @@ export async function getRealtimeGtfs(url: string) {
         }
     }
 
-    console.log(`Parsed ${vehicles.length} vehicles from GTFS realtime feed.`);;
+    console.log(`Parsed ${vehicles.length} vehicles from GTFS realtime feed.`);
+
+    // save the parsed info
+    realtimeGtfsDataStore.set({
+        localTimestamp: new Date().toString(),
+        feedTimestamp: feedTimestamp,
+        vehicles: vehicles
+    });
 }
