@@ -91,6 +91,7 @@ export async function fetchStaticGtfs(url: string) {
     console.log(`Stops: ${stopsFile.length}`);
 
     const stops: Record<string, Stop> = {};
+    const parentStopIds: string[] = [];
 
     for (const record of stopsFile) {
         const locationTypeMap = {
@@ -101,6 +102,10 @@ export async function fetchStaticGtfs(url: string) {
             4: 'boardingArea',
         } as const;
 
+        const parentStopId = record.parent_station || null;
+        if (parentStopId) {
+            parentStopIds.push(parentStopId);
+        }
 
         stops[record.stop_id] = {
             id: record.stop_id,
@@ -110,8 +115,13 @@ export async function fetchStaticGtfs(url: string) {
                 longitude: record.stop_lon
             },
             type: locationTypeMap[record.location_type as keyof typeof locationTypeMap],
-            parentStopId: record.parent_station || null
+            parentStopId: parentStopId,
+            hasChildren: false, // this is actually set in the next loop
         };
+    }
+
+    for (const stopId of parentStopIds) {
+        stops[stopId].hasChildren = true;
     }
 
     // parse routes

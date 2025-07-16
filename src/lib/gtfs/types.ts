@@ -9,6 +9,7 @@ export type Stop = {
     location: Location;
     type: 'stop' | 'station' | 'door' | 'generic' | 'boardingArea';
     parentStopId: string | null;
+    hasChildren: boolean;
 }
 
 export type Route = {
