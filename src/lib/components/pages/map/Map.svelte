@@ -5,15 +5,16 @@
     import L from "leaflet";
     import { onMount, onDestroy } from "svelte";
 
-    import { fetchStaticGtfs } from '$lib/gtfs/api';
-    import { staticGtfsDataStore } from '../../../../stores';
-    import type { Stop } from '$lib/gtfs/types';
+    import { fetchStaticGtfs, fetchRealtimeGtfs } from '$lib/gtfs/api';
+    import { staticGtfsDataStore, realtimeGtfsDataStore } from '../../../../stores';
+    import type { Stop, Vehicle } from '$lib/gtfs/types';
 
     let map: L.Map;
     let updateInterval: ReturnType<typeof setInterval>;
 
     let stopsLastDrawn: Stop[] = [];
-    let stopMarkers: Record<string, L.Marker> = {};
+    const stopMarkers: Record<string, L.Marker> = {};
+    const vehicleMarkers: Record<string, L.Marker> = {};
 
     const stopIcon = L.icon({
         iconUrl: stopIconUrl,
@@ -63,16 +64,73 @@
         stopsLastDrawn = stopsToBeDrawn;
     }
 
+    function drawVehicles() {
+        let currentlyDrawnVehiclesIds: string[] = [];
+
+        for (const vehicle of $realtimeGtfsDataStore.vehicles) {
+            // If the vehicle doesn't have a position attached, there's no point in drawing it
+            if (!vehicle.position) {continue};
+            
+            currentlyDrawnVehiclesIds.push(vehicle.id);
+
+            // If the vehicle doesn't have a marker yet, create a blank one
+            if (!Object.keys(vehicleMarkers).includes(vehicle.id)) {
+                const marker = L.marker([0, 0], {interactive: true}).addTo(map);
+                marker.bindPopup('<div id="vehicle-popup" style="width: 500px; height: 200px"></div>');
+                marker.addEventListener("popupopen", function() {setTimeout(function() {onVehiclePopupClick(vehicle)}, 200)});
+
+                vehicleMarkers[vehicle.id] = marker;
+            }
+
+            // Now update the existing marker with current information
+            const marker = vehicleMarkers[vehicle.id];
+            marker.setLatLng([vehicle.position.location.latitude, vehicle.position.location.longitude]);
+        }
+
+        // Remove no longer current vehicle markers
+        let vehicleIdsToRemove: string[] = [];
+        for (const vehicleId of Object.keys(vehicleMarkers)) {
+            if (!currentlyDrawnVehiclesIds.includes(vehicleId)) {
+                vehicleIdsToRemove.push(vehicleId);
+            }
+        }
+        
+        for (const vehicleId of vehicleIdsToRemove) {
+            map.removeLayer(vehicleMarkers[vehicleId]);
+            delete vehicleMarkers[vehicleId];
+        }
+    }
+
     function updateMarkers() {
         // Remove any existing markers and all them back in
         // This is done after zooming and GTFS realtime
         // updates to update the map.
         drawStops();
+        drawVehicles();
+    }
+
+    function onVehiclePopupClick(vehicle: Vehicle) {
+        const popupElement = document.getElementById('vehicle-popup') as HTMLDivElement;
+        if (!popupElement) {console.warn("Failed to find vehicle popup")};
+
+        function getPopupContent(vehicle: Vehicle): string {
+            // First, try to get the vehicle's trip
+            if (!vehicle.tripId || !Object.keys($staticGtfsDataStore.trips).includes(vehicle.tripId)) {return "Unknown trip. Consider refreshing static GTFS data?"}
+            const trip = $staticGtfsDataStore.trips[vehicle.tripId];
+
+            // Now, try to get the route
+            if (!Object.keys($staticGtfsDataStore.routes).includes(trip.routeId)) {return trip.headsign || "No trip information. Consider refreshing static GTFS data?"};
+            const route = $staticGtfsDataStore.routes[trip.routeId];
+
+            return route.id;
+        }
+
+        popupElement.innerHTML = getPopupContent(vehicle);
     }
 
     onMount(function() {
        map = L.map('map');
-       map.setView([50.0869250, 14.4207550], 13)
+       map.setView([50.0869250, 14.4207550], 4)
        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -97,3 +155,6 @@
 
 <div id="map"></div>
 <br> <button on:click={function() {fetchStaticGtfs('http://localhost:8000/gtfs.zip')}}>Update static</button>
+<br> <button on:click={function() {fetchRealtimeGtfs('http://localhost:8000/gtfsReal.dat')}}>Update realtime</button>
+
+{Object.keys(vehicleMarkers).length} vehicles

@@ -208,7 +208,7 @@ export async function fetchRealtimeGtfs(url: string) {
         if (entity.vehicle) {
             const vehicle = entity.vehicle;
             vehicles.push({
-                id: entity.id,
+                id: entity.id || Math.random().toString(),
                 tripId: entity.vehicle.trip && entity.vehicle.trip.tripId ? entity.vehicle.trip.tripId : null,
                 position: vehicle.position?.latitude && vehicle.position?.longitude ? {
                     location: {
