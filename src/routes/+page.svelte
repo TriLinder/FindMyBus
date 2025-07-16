@@ -1,19 +1,11 @@
 <script lang="ts">;
-    import { fetchStaticGtfs, fetchRealtimeGtfs } from "$lib/gtfs/api";
+    import { currentPageStore } from "../stores";
 
-    let type: 'static' | 'realtime' = "realtime";
-    let url: string;
-
-    async function click() {
-        if (type === 'static') {
-            await fetchStaticGtfs(url);
-        } else {
-            await fetchRealtimeGtfs(url);
-        }
-    }
+    import Map from "$lib/components/pages/map/Map.svelte";
 </script>
 
-<input type="radio" bind:group={type} value="static"> Static
-<input type="radio" bind:group={type} value="realtime" checked> Realtime
-<input type="text" bind:value={url}>
-<button on:click={click}>GET {type}</button>
+{#if $currentPageStore == 'map'}
+    <Map/>
+{:else}
+    <p>Unknown page! {$currentPageStore}</p>
+{/if}

@@ -18,6 +18,8 @@ type RealtimeGtfsData = {
     vehicles: Vehicle[]
 }
 
+type Page = 'map';
+
 export const staticGtfsDataStore = objectStore<StaticGtfsData>({
     storeName: "com.jakubhlavacek.gtfsrealtimemap.staticGtfsData",
     initialValue: {
@@ -36,3 +38,5 @@ export const realtimeGtfsDataStore = writable<RealtimeGtfsData>({
     feedTimestamp: new Date().toString(),
     vehicles: []
 });
+
+export const currentPageStore = writable<Page>('map');
