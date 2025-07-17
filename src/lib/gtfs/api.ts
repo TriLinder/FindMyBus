@@ -155,8 +155,8 @@ export async function fetchStaticGtfs(url: string) {
         routes[record.route_id] = {
             id: record.route_id,
             name: {
-                short: record.route_short_name || null,
-                long: record.route_long_name || null
+                short: record.route_short_name ? record.route_short_name.toString() : null,
+                long: record.route_long_name ? record.route_long_name.toString() : null
             },
             type: routeTypeMap[record.route_type as keyof typeof routeTypeMap],
             color: {

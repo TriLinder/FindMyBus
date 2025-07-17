@@ -68,26 +68,72 @@
     }
 
     function drawVehicles() {
-        let currentlyDrawnVehiclesIds: string[] = [];
+        const bounds = map.getBounds();
+        const boundsWithPadding = bounds.pad(0); // padded by 50%
+
+        const currentlyDrawnVehiclesIds: string[] = [];
 
         for (const vehicle of $realtimeGtfsDataStore.vehicles) {
             // If the vehicle doesn't have a position attached, there's no point in drawing it
             if (!vehicle.position) {continue};
-            
-            currentlyDrawnVehiclesIds.push(vehicle.id);
 
-            // If the vehicle doesn't have a marker yet, create a blank one
+            // If the vehicle is really out of bounds, don't draw it either
+            // (though the popup closing isn't great, that's why the bounds are padded)
+            if (!boundsWithPadding.contains([vehicle.position.location.latitude, vehicle.position.location.longitude])) {continue};
+
+            currentlyDrawnVehiclesIds.push(vehicle.id);
+            const markerIconElementId = `vehicle-marker-${btoa(vehicle.id)}`;
+
+            // If the vehicle doesn't have a marker yet, create one
             if (!Object.keys(vehicleMarkers).includes(vehicle.id)) {
                 const marker = L.marker([0, 0], {interactive: true}).addTo(map);
                 marker.bindPopup('<div id="vehicle-popup" style="width: 300px;"></div>', {autoPan: false});
                 marker.addEventListener("popupopen", function() {onVehiclePopupClick(vehicle)});
 
+                // Try to use the vehicle's route short name as a label, otherwise
+                // leave it empty
+                let label = "";
+                let genericColor = '';
+                let textColor = '';
+                if (vehicle.tripId && Object.keys($staticGtfsDataStore.trips).includes(vehicle.tripId)) {
+                    const trip = $staticGtfsDataStore.trips[vehicle.tripId];
+                    if (Object.keys($staticGtfsDataStore.routes).includes(trip.routeId)) {
+                        const route = $staticGtfsDataStore.routes[trip.routeId];
+
+                        genericColor = '#' + (route.color.generic || '000000');
+                        textColor = '#' + (route.color.text || 'ffffff');
+
+                        if (route.name.short && route.name.short.length > 1 && route.name.short.length <= 4) {
+                            label = route.name.short;
+                        }
+                    }
+            }
+
+                marker.setIcon(L.divIcon({html: `<div id="${markerIconElementId}" class="vehicle-marker" style="color: ${textColor}; background-color: ${genericColor}">${label}</div>`, className: ''}));
                 vehicleMarkers[vehicle.id] = marker;
             }
 
             // Now update the existing marker with current information
             const marker = vehicleMarkers[vehicle.id];
             marker.setLatLng([vehicle.position.location.latitude, vehicle.position.location.longitude]);
+
+            // Update the icon
+            const markerIconElement: HTMLDivElement | null = document.getElementById(markerIconElementId) as HTMLDivElement;
+            if (!markerIconElement) {
+                console.warn("Failed to find marker element.");
+                continue;
+            }
+
+            // If we have bearing information, use an arrow with a rotation, otherwise use a dot
+            if (vehicle.position.bearing) {
+                markerIconElement.classList.add('vehicle-marker-arrow');
+                markerIconElement.classList.remove('vehicle-marker-dot');
+                markerIconElement.style.transform = `rotate(${vehicle.position.bearing}deg)`;
+            } else {
+                markerIconElement.classList.add('vehicle-marker-dot');
+                markerIconElement.classList.remove('vehicle-marker-arrow');
+                markerIconElement.style.transform = '';
+            }
         }
 
         // Remove no longer current vehicle markers
@@ -148,11 +194,37 @@
         width: 1000px;
         height: 500px;
     }
+
+    :global(.vehicle-marker) {
+        display: flex;
+
+        justify-content: center;
+
+        font-weight: bold;
+    }
+
+    :global(.vehicle-marker-dot) {
+        width: 25px;
+        height: 25px;
+        border-radius: 100%;
+
+        align-items: center;
+    }
+
+    :global(.vehicle-marker-arrow) {
+        width: 30px;
+        height: 30px;
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+
+        align-items: end;
+    }
 </style>
 
 <div id="map"></div>
 <br> <button on:click={function() {fetchStaticGtfs('http://localhost:8000/gtfs.zip')}}>Update static</button>
 <br> <button on:click={function() {fetchRealtimeGtfs('http://localhost:8000/gtfsReal.dat')}}>Update realtime</button>
+
+{Object.keys(vehicleMarkers).length} vehicles on screen
 
 <!-- This is where the popup content gets pulled from when clicking on a vehicle -->
 <div style="display: none;">
