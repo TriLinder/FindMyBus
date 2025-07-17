@@ -28,12 +28,17 @@ export type Route = {
 export type Trip = {
     id: string;
     routeId: string;
+    stopTimes: {
+        stopId: string;
+        departureTime: string;
+    }[];
     headsign: string | null;
 }
 
 export type Vehicle = {
     id: string;
     tripId: string | null;
+    currentStopId: string | null;
     position: {
         location: Location;
         bearing: number | null;

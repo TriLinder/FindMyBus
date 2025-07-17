@@ -57,6 +57,14 @@ type TripsFile = {
     trip_headsign: string | undefined;
 }[];
 
+type StopTimesFile = {
+    trip_id: string;
+    arrival_time: string;
+    departure_time: string;
+    stop_id: string;
+    stop_sequence: number;
+}[];
+
 export async function fetchStaticGtfs(url: string) {
     // fetch the GTFS static file, which is a zip file
     const options: HttpOptions = {
@@ -74,7 +82,7 @@ export async function fetchStaticGtfs(url: string) {
     console.log(`Unzipped, found ${Object.keys(files).length} files.`);
 
     // assert we've got the necessary files
-    const expectedFiles = ['agency.txt', 'stops.txt'];
+    const expectedFiles = ['agency.txt', 'stops.txt', 'routes.txt', 'trips.txt', 'stop_times.txt'];
 
     for (const file of expectedFiles) {
         if (!files[file]) {
@@ -168,8 +176,24 @@ export async function fetchStaticGtfs(url: string) {
         trips[record.trip_id] = {
             id: record.trip_id,
             routeId: record.route_id,
+            stopTimes: [], // this gets filled in while parsing the stop times file next
             headsign: record.trip_headsign || null
         };
+    }
+
+    // parse stop times (per trip)
+    const stopTimesFile = parseUnzipedCsvFile(files['stop_times.txt']) as StopTimesFile;
+    console.log(`Individual stop time records: ${stopTimesFile.length}`);
+
+    stopTimesFile.sort((a, b) => a.stop_sequence - b.stop_sequence); // sort the individual stops by their sequence
+
+    for (const stopTime of stopTimesFile) {
+        try {
+            trips[stopTime.trip_id].stopTimes.push({
+                stopId: stopTime.stop_id,
+                departureTime: stopTime.departure_time
+            });
+        } catch {}
     }
 
     // save the parsed info
@@ -181,6 +205,8 @@ export async function fetchStaticGtfs(url: string) {
         routes: routes,
         trips: trips
     });
+
+    console.log("Parsing and saving static GTFS done.");
 }
 
 export async function fetchRealtimeGtfs(url: string) {
@@ -188,6 +214,11 @@ export async function fetchRealtimeGtfs(url: string) {
     const options: HttpOptions = {
         url: url,
         responseType: 'arraybuffer',
+        headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0',
+        },
         connectTimeout: 4000,
         readTimeout: 4000
     }
@@ -208,8 +239,9 @@ export async function fetchRealtimeGtfs(url: string) {
         if (entity.vehicle) {
             const vehicle = entity.vehicle;
             vehicles.push({
-                id: entity.id || Math.random().toString(),
+                id: entity.vehicle.vehicle && entity.vehicle.vehicle.id ? entity.vehicle.vehicle.id : Math.random().toString(),
                 tripId: entity.vehicle.trip && entity.vehicle.trip.tripId ? entity.vehicle.trip.tripId : null,
+                currentStopId: vehicle.stopId || null,
                 position: vehicle.position?.latitude && vehicle.position?.longitude ? {
                     location: {
                         latitude: vehicle.position?.latitude,

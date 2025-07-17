@@ -2,12 +2,13 @@
     import 'leaflet/dist/leaflet.css';
     import stopIconUrl from "$lib/map-icons/stop.svg";
 
-    import L from "leaflet";
+    import L, { popup } from "leaflet";
     import { onMount, onDestroy } from "svelte";
 
     import { fetchStaticGtfs, fetchRealtimeGtfs } from '$lib/gtfs/api';
     import { staticGtfsDataStore, realtimeGtfsDataStore } from '../../../../stores';
     import type { Stop, Vehicle } from '$lib/gtfs/types';
+    import VehiclePopup from './VehiclePopup.svelte';
 
     let map: L.Map;
     let updateInterval: ReturnType<typeof setInterval>;
@@ -15,6 +16,8 @@
     let stopsLastDrawn: Stop[] = [];
     const stopMarkers: Record<string, L.Marker> = {};
     const vehicleMarkers: Record<string, L.Marker> = {};
+
+    let selectedVehicle: Vehicle;
 
     const stopIcon = L.icon({
         iconUrl: stopIconUrl,
@@ -76,8 +79,8 @@
             // If the vehicle doesn't have a marker yet, create a blank one
             if (!Object.keys(vehicleMarkers).includes(vehicle.id)) {
                 const marker = L.marker([0, 0], {interactive: true}).addTo(map);
-                marker.bindPopup('<div id="vehicle-popup" style="width: 500px; height: 200px"></div>');
-                marker.addEventListener("popupopen", function() {setTimeout(function() {onVehiclePopupClick(vehicle)}, 200)});
+                marker.bindPopup('<div id="vehicle-popup" style="width: 300px;"></div>', {autoPan: false});
+                marker.addEventListener("popupopen", function() {onVehiclePopupClick(vehicle)});
 
                 vehicleMarkers[vehicle.id] = marker;
             }
@@ -110,22 +113,16 @@
     }
 
     function onVehiclePopupClick(vehicle: Vehicle) {
+        selectedVehicle = vehicle;
+        setTimeout(function() {replaceVehiclePopup()}, 200);
+    }
+
+    function replaceVehiclePopup() {
         const popupElement = document.getElementById('vehicle-popup') as HTMLDivElement;
-        if (!popupElement) {console.warn("Failed to find vehicle popup")};
+        const templateElement = document.getElementById('vehicle-popup-template') as HTMLElement;
+        if (!popupElement || !templateElement) {console.warn("Failed to find vehicle popup")};
 
-        function getPopupContent(vehicle: Vehicle): string {
-            // First, try to get the vehicle's trip
-            if (!vehicle.tripId || !Object.keys($staticGtfsDataStore.trips).includes(vehicle.tripId)) {return "Unknown trip. Consider refreshing static GTFS data?"}
-            const trip = $staticGtfsDataStore.trips[vehicle.tripId];
-
-            // Now, try to get the route
-            if (!Object.keys($staticGtfsDataStore.routes).includes(trip.routeId)) {return trip.headsign || "No trip information. Consider refreshing static GTFS data?"};
-            const route = $staticGtfsDataStore.routes[trip.routeId];
-
-            return route.id;
-        }
-
-        popupElement.innerHTML = getPopupContent(vehicle);
+        popupElement.outerHTML = templateElement.outerHTML;
     }
 
     onMount(function() {
@@ -157,4 +154,15 @@
 <br> <button on:click={function() {fetchStaticGtfs('http://localhost:8000/gtfs.zip')}}>Update static</button>
 <br> <button on:click={function() {fetchRealtimeGtfs('http://localhost:8000/gtfsReal.dat')}}>Update realtime</button>
 
-{Object.keys(vehicleMarkers).length} vehicles
+<!-- This is where the popup content gets pulled from when clicking on a vehicle -->
+<div style="display: none;">
+    <div id="vehicle-popup-template">
+        {#if selectedVehicle}
+            {#key selectedVehicle}
+                <VehiclePopup vehicle={selectedVehicle}/>
+            {/key}
+        {:else}
+            Failed to generate popup content.
+        {/if}
+    </div>
+</div>
