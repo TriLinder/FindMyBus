@@ -6,6 +6,7 @@
     import Icon from "svelte-awesome";
     import type { IconData } from "svelte-awesome/components/Icon.svelte";
     import mapPin from 'svelte-awesome/icons/mapPin';
+    import flag from 'svelte-awesome/icons/flag';
     import dashboard from 'svelte-awesome/icons/dashboard';
     import subway from 'svelte-awesome/icons/subway';
     import train from 'svelte-awesome/icons/train';
@@ -24,6 +25,7 @@
     let textColor: string;
 
     let currentStop: Stop | null;
+    let terminusStop: Stop | null;
     let upcomingStop: Stop | null;
     let speedString: string | null = null;
     let routeType: {icon: Record<string, IconData>, label: string} | null = null;
@@ -46,10 +48,10 @@
 
         // The best way to identify the trip is by its headsign, though
         // otherwise the users probably expects to see its terminus stop.
-        const terimnusStop: Stop | undefined = $staticGtfsDataStore.stops[trip.stopTimes.at(-1)?.stopId!];
+        terminusStop = $staticGtfsDataStore.stops[trip.stopTimes.at(-1)?.stopId!] || null;
 
         if (trip.headsign) {tripLabel = trip.headsign}
-            else if (terimnusStop) {tripLabel = terimnusStop.name}
+            else if (terminusStop) {tripLabel = terminusStop.name}
             else {tripLabel = "Unknown"}
 
         // Get colors for the short route name tag
@@ -131,6 +133,12 @@
         {#if upcomingStop && upcomingStop != currentStop}
             <div class="row">
                 <Icon data={road} style="width: 15px;"/> <b>{upcomingStop.name}</b>
+            </div>
+        {/if}
+
+        {#if terminusStop && terminusStop.name != tripLabel}
+            <div class="row">
+                <Icon data={flag} style="width: 15px;"/> {terminusStop.name}
             </div>
         {/if}
 
