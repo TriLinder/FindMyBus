@@ -103,7 +103,7 @@
                         genericColor = '#' + (route.color.generic || '000000');
                         textColor = '#' + (route.color.text || 'ffffff');
 
-                        if (route.name.short && route.name.short.length > 1 && route.name.short.length <= 4) {
+                        if (route.name.short && route.name.short.length >= 1 && route.name.short.length <= 4) {
                             label = route.name.short;
                         }
                     }
