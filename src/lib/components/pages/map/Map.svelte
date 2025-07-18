@@ -7,7 +7,7 @@
     import { onMount, onDestroy } from "svelte";
 
     import { fetchStaticGtfs, fetchRealtimeGtfs } from '$lib/gtfs/api';
-    import { staticGtfsDataStore, realtimeGtfsDataStore, mapPositionStore } from '../../../../stores';
+    import { staticGtfsDataStore, realtimeGtfsDataStore, mapPositionStore, currentPageStore } from '../../../../stores';
     import type { Stop, Vehicle } from '$lib/gtfs/types';
     import VehiclePopup from './VehiclePopup.svelte';
 
@@ -243,6 +243,7 @@
 <div id="map"></div>
 <br> <button on:click={function() {fetchStaticGtfs('http://localhost:8000/gtfs.zip')}}>Update static</button>
 <br> <button on:click={function() {fetchRealtimeGtfs('http://localhost:8000/gtfsReal.dat')}}>Update realtime</button>
+<br> <button on:click={function() {$currentPageStore = 'settings'}}>Settings</button>
 
 {Object.keys(vehicleMarkers).length} vehicles on screen
 

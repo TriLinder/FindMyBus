@@ -25,7 +25,7 @@ type MapPosition = {
     zoomLevel: number
 }
 
-type Page = 'loading' | 'map';
+type Page = 'loading' | 'map' | 'settings';
 
 export const staticGtfsDataStore = objectStore<StaticGtfsData>({
     storeName: "com.jakubhlavacek.gtfsrealtimemap.staticGtfsData",
