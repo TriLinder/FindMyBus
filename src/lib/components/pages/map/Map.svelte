@@ -2,11 +2,11 @@
     import 'leaflet/dist/leaflet.css';
     import stopIconUrl from "$lib/map-icons/stop.svg";
 
-    import L, { popup } from "leaflet";
+    import L from "leaflet";
     import { onMount, onDestroy } from "svelte";
 
     import { fetchStaticGtfs, fetchRealtimeGtfs } from '$lib/gtfs/api';
-    import { staticGtfsDataStore, realtimeGtfsDataStore } from '../../../../stores';
+    import { staticGtfsDataStore, realtimeGtfsDataStore, mapPositionStore } from '../../../../stores';
     import type { Stop, Vehicle } from '$lib/gtfs/types';
     import VehiclePopup from './VehiclePopup.svelte';
 
@@ -158,6 +158,13 @@
         drawVehicles();
     }
 
+    function onMapInteraction() {
+        updateMarkers();
+
+        $mapPositionStore.location =  map.getCenter();
+        $mapPositionStore.zoomLevel = map.getZoom();
+    }
+
     function onVehiclePopupClick(vehicle: Vehicle) {
         selectedVehicle = vehicle;
         setTimeout(function() {replaceVehiclePopup()}, 200);
@@ -172,16 +179,19 @@
     }
 
     onMount(function() {
-       map = L.map('map');
-       map.setView([50.0869250, 14.4207550], 4)
-       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        // Initialize the map
+        map = L.map('map');
+
+        map.setView(L.latLng($mapPositionStore.location), $mapPositionStore.zoomLevel);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
         updateInterval = setInterval(updateMarkers, 2000);
-        map.addEventListener("zoomend", updateMarkers);
-        map.addEventListener("moveend", updateMarkers);
+        map.addEventListener("zoomend", onMapInteraction);
+        map.addEventListener("moveend", onMapInteraction);
     });
 
     onDestroy(function() {

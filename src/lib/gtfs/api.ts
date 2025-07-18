@@ -70,6 +70,11 @@ export async function fetchStaticGtfs(url: string) {
     const options: HttpOptions = {
         url: url,
         responseType: 'blob',
+        headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0',
+        },
         connectTimeout: 4000,
         readTimeout: 4000
     }
