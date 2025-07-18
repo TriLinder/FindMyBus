@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { _ } from "svelte-i18n";
     import { staticGtfsDataStore } from "../../../../stores";
     import { parseStopTimeStringToLocalTimezoneToday } from "$lib/utils";
     import type { Vehicle, Stop, Trip, Route } from "$lib/gtfs/types";
@@ -36,14 +37,14 @@
         // We assume we have the vehicle's position information,
         // otherwise there's not even any way for the popup to be
         // displayed in the first place.
-        if (!vehicle.position) {return "No position information for this vehicle."};
+        if (!vehicle.position) {return $_('map.vehiclePopup.errors.noPosition')};
 
         // First, try to get the vehicle's trip
-        if (!vehicle.tripId || !Object.keys($staticGtfsDataStore.trips).includes(vehicle.tripId)) {return "Unknown trip. Consider refreshing static GTFS data?"}
+        if (!vehicle.tripId || !Object.keys($staticGtfsDataStore.trips).includes(vehicle.tripId)) {return $_('map.vehiclePopup.errors.unknownTrip')}
         trip = $staticGtfsDataStore.trips[vehicle.tripId];
 
         // Now, try to get the route
-        if (!Object.keys($staticGtfsDataStore.routes).includes(trip.routeId)) {return trip.headsign || "No trip information. Consider refreshing static GTFS data?"};
+        if (!Object.keys($staticGtfsDataStore.routes).includes(trip.routeId)) {return $_('map.vehiclePopup.errors.unknownRoute')};
         route = $staticGtfsDataStore.routes[trip.routeId];
 
         // The best way to identify the trip is by its headsign, though
@@ -77,16 +78,16 @@
         // Get the route type
         if (route.type) {
             switch (route.type) {
-                case('tram'): routeType = {icon: train, label: "Tram"}; break;
-                case('subway'): routeType = {icon: subway, label: "Metro"}; break;
-                case('train'): routeType = {icon: train, label: "Train"}; break;
-                case('bus'): routeType = {icon: bus, label: "Bus"}; break;
-                case('ferry'): routeType = {icon: ship, label: "Ferry"}; break;
-                case('cableTram'): routeType = {icon: train, label: "Cable tram"}; break;
-                case('cableCar'): routeType = {icon: arrowCircleOUp, label: "Cable car"}; break;
-                case('funicular'): routeType = {icon: arrowCircleOUp, label: "Funicular"}; break;
-                case('trolleybus'): routeType = {icon: bus, label: "Trolleybus"}; break;
-                case('monorail'): routeType = {icon: train, label: "Monorail"}; break;
+                case('tram'): routeType = {icon: train, label: $_("map.vehiclePopup.routeType.tram")}; break;
+                case('subway'): routeType = {icon: subway, label: $_("map.vehiclePopup.routeType.subway")}; break;
+                case('train'): routeType = {icon: train, label: $_("map.vehiclePopup.routeType.train")}; break;
+                case('bus'): routeType = {icon: bus, label: $_("map.vehiclePopup.routeType.bus")}; break;
+                case('ferry'): routeType = {icon: ship, label: $_("map.vehiclePopup.routeType.ferry")}; break;
+                case('cableTram'): routeType = {icon: train, label: $_("map.vehiclePopup.routeType.cableTram")}; break;
+                case('cableCar'): routeType = {icon: arrowCircleOUp, label: $_("map.vehiclePopup.routeType.cableCar")}; break;
+                case('funicular'): routeType = {icon: arrowCircleOUp, label: $_("map.vehiclePopup.routeType.funicular")}; break;
+                case('trolleybus'): routeType = {icon: bus, label: $_("map.vehiclePopup.routeType.trolleybus")}; break;
+                case('monorail'): routeType = {icon: train, label: $_("map.vehiclePopup.routeType.monorail")}; break;
             }
         }
     }

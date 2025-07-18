@@ -1,0 +1,26 @@
+{
+    "map": {
+        "errors": {
+            "failedToGeneratePopupContent": "Failed to generate popup content."
+        },
+        "vehiclePopup": {
+            "routeType": {
+                "tram": "Tram",
+                "subway": "Metro",
+                "train": "Train",
+                "bus": "Bus",
+                "ferry": "Ferry",
+                "cableTram": "Cable tram",
+                "cableCar": "Cable car",
+                "funicular": "Funicular",
+                "trolleybus": "Trolleybus",
+                "monorail": "Monorail"
+            },
+            "errors": {
+                "noPosition": "No position information for this vehicle.",
+                "unknownTrip": "Unknown trip. Consider refreshing static GTFS data?",
+                "unknownRoute": "No trip information. Consider refreshing static GTFS data?"
+            }
+        }
+    }
+}

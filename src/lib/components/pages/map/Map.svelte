@@ -2,6 +2,7 @@
     import 'leaflet/dist/leaflet.css';
     import stopIconUrl from "$lib/map-icons/stop.svg";
 
+    import { _ } from 'svelte-i18n';
     import L from "leaflet";
     import { onMount, onDestroy } from "svelte";
 
@@ -253,7 +254,7 @@
                 <VehiclePopup vehicle={selectedVehicle}/>
             {/key}
         {:else}
-            Failed to generate popup content.
+            {$_("map.errors.failedToGeneratePopupContent")}
         {/if}
     </div>
 </div>

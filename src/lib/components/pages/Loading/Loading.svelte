@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
+    import { initI18n } from "$lib/i18n";
     import { staticGtfsDataStore, mapPositionStore, currentPageStore } from "../../../../stores";
 
     async function load() {
@@ -7,6 +8,9 @@
         // to initialize
         await staticGtfsDataStore.init();
         await mapPositionStore.init();
+
+        // Wait for i18n to initialize
+        await initI18n();
 
         // Done! :D
         $currentPageStore = 'map';

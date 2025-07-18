@@ -31,6 +31,7 @@
 		"leaflet": "^1.9.4",
 		"papaparse": "^5.5.3",
 		"svelte-awesome": "^3.3.5",
-		"svelte-capacitor-store": "^0.3.6"
+		"svelte-capacitor-store": "^0.3.6",
+		"svelte-i18n": "^4.0.1"
 	}
 }
