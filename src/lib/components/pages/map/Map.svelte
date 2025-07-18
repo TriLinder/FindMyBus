@@ -82,7 +82,7 @@
             if (!boundsWithPadding.contains([vehicle.position.location.latitude, vehicle.position.location.longitude])) {continue};
 
             currentlyDrawnVehiclesIds.push(vehicle.id);
-            const markerIconElementId = `vehicle-marker-${btoa(vehicle.id)}`;
+            const markerBackgroundElementId = `vehicle-marker-${btoa(vehicle.id)}`;
 
             // If the vehicle doesn't have a marker yet, create one
             if (!Object.keys(vehicleMarkers).includes(vehicle.id)) {
@@ -109,7 +109,12 @@
                     }
             }
 
-                marker.setIcon(L.divIcon({html: `<div id="${markerIconElementId}" class="vehicle-marker" style="color: ${textColor}; background-color: ${genericColor}">${label}</div>`, className: ''}));
+                marker.setIcon(L.divIcon({html: `
+                        <div class="vehicle-marker-container">
+                            <div class="vehicle-marker-background vehicle-marker-arrow" id="${markerBackgroundElementId}" style="background-color: ${genericColor}"></div>
+                            <span class="vehicle-marker-label" style="color: ${textColor};">${label}</span>
+                        </div>
+                    `, className: ''}));
                 vehicleMarkers[vehicle.id] = marker;
             }
 
@@ -118,21 +123,21 @@
             marker.setLatLng([vehicle.position.location.latitude, vehicle.position.location.longitude]);
 
             // Update the icon
-            const markerIconElement: HTMLDivElement | null = document.getElementById(markerIconElementId) as HTMLDivElement;
-            if (!markerIconElement) {
+            const markerBackgroundElement: HTMLDivElement | null = document.getElementById(markerBackgroundElementId) as HTMLDivElement;
+            if (!markerBackgroundElement) {
                 console.warn("Failed to find marker element.");
                 continue;
             }
 
             // If we have bearing information, use an arrow with a rotation, otherwise use a dot
             if (vehicle.position.bearing) {
-                markerIconElement.classList.add('vehicle-marker-arrow');
-                markerIconElement.classList.remove('vehicle-marker-dot');
-                markerIconElement.style.transform = `rotate(${vehicle.position.bearing}deg)`;
+                markerBackgroundElement.classList.add('vehicle-marker-arrow');
+                markerBackgroundElement.classList.remove('vehicle-marker-dot');
+                markerBackgroundElement.style.transform = `rotate(${vehicle.position.bearing}deg)`;
             } else {
-                markerIconElement.classList.add('vehicle-marker-dot');
-                markerIconElement.classList.remove('vehicle-marker-arrow');
-                markerIconElement.style.transform = '';
+                markerBackgroundElement.classList.add('vehicle-marker-dot');
+                markerBackgroundElement.classList.remove('vehicle-marker-arrow');
+                markerBackgroundElement.style.transform = '';
             }
         }
 
@@ -205,28 +210,32 @@
         height: 500px;
     }
 
-    :global(.vehicle-marker) {
-        display: flex;
-
-        justify-content: center;
-
-        font-weight: bold;
+    :global(.vehicle-marker-container) {
+        position: absolute;
+        display: inline-block;
     }
 
     :global(.vehicle-marker-dot) {
         width: 25px;
         height: 25px;
         border-radius: 100%;
-
-        align-items: center;
     }
 
     :global(.vehicle-marker-arrow) {
         width: 30px;
         height: 30px;
         clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
 
-        align-items: end;
+    :global(.vehicle-marker-label) {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        font-size: 10px;
+        font-family: sans-serif;
+        font-weight: bold;
     }
 </style>
 
