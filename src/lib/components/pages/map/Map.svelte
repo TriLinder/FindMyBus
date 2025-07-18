@@ -94,15 +94,15 @@
                 // Try to use the vehicle's route short name as a label, otherwise
                 // leave it empty
                 let label = "";
-                let genericColor = '';
-                let textColor = '';
+                let genericColor = 'darkBlue';
+                let textColor = 'white';
                 if (vehicle.tripId && Object.keys($staticGtfsDataStore.trips).includes(vehicle.tripId)) {
                     const trip = $staticGtfsDataStore.trips[vehicle.tripId];
                     if (Object.keys($staticGtfsDataStore.routes).includes(trip.routeId)) {
                         const route = $staticGtfsDataStore.routes[trip.routeId];
 
-                        genericColor = '#' + (route.color.generic || '000000');
-                        textColor = '#' + (route.color.text || 'ffffff');
+                        if (route.color.generic) {genericColor = '#' + route.color.generic};
+                        if (route.color.text) {textColor = '#' + (route.color.text || 'ffffff')};
 
                         if (route.name.short && route.name.short.length >= 1 && route.name.short.length <= 4) {
                             label = route.name.short;
