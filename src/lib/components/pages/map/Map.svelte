@@ -1,9 +1,11 @@
 <script lang="ts">
     import 'leaflet/dist/leaflet.css';
+    import "leaflet.locatecontrol/dist/L.Control.Locate.min.css";
     import stopIconUrl from "$lib/map-icons/stop.svg";
 
     import { _ } from 'svelte-i18n';
     import L from "leaflet";
+    import { LocateControl } from "leaflet.locatecontrol";
     import { onMount, onDestroy } from "svelte";
 
     import { fetchStaticGtfs, fetchRealtimeGtfs } from '$lib/gtfs/api';
@@ -195,6 +197,10 @@
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
+        // Add user's location
+        new LocateControl({keepCurrentZoomLevel: true, showPopup: false, locateOptions: {watch: true}}).addTo(map).start();
+
+        // Event handlers
         updateInterval = setInterval(updateMarkers, 2000);
         map.addEventListener("zoomend", onMapInteraction);
         map.addEventListener("moveend", onMapInteraction);

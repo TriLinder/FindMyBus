@@ -29,6 +29,7 @@
 		"fflate": "^0.8.2",
 		"gtfs-realtime-bindings": "^1.1.1",
 		"leaflet": "^1.9.4",
+		"leaflet.locatecontrol": "^0.84.2",
 		"papaparse": "^5.5.3",
 		"svelte-awesome": "^3.3.5",
 		"svelte-capacitor-store": "^0.3.6",
