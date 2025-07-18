@@ -25,7 +25,7 @@ type MapPosition = {
     zoomLevel: number
 }
 
-type Page = 'map';
+type Page = 'loading' | 'map';
 
 export const staticGtfsDataStore = objectStore<StaticGtfsData>({
     storeName: "com.jakubhlavacek.gtfsrealtimemap.staticGtfsData",
@@ -56,4 +56,4 @@ export const mapPositionStore = objectStore<MapPosition>({
     persist: true
 });
 
-export const currentPageStore = writable<Page>('map');
+export const currentPageStore = writable<Page>('loading');
