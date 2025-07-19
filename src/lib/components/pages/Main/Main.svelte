@@ -10,6 +10,10 @@
         width: 1000px;
         height: 500px;
     }
+
+    button {
+        color: blue;
+    }
 </style>
 
 <div class="map-container">

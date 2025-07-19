@@ -1,6 +1,10 @@
 <script lang="ts">
     import { currentPageStore } from "../../../../stores";
+
+    import { Navbar, Block } from "konsta/svelte";
 </script>
 
-settings! woo!
-<button on:click={function() {$currentPageStore = 'map'}}>let me back</button>
+<Navbar title="Settings"/> 
+<Block strong>
+    Hello, world!
+</Block>
