@@ -1,5 +1,6 @@
 <script lang="ts">;
     import "../app.css";
+    import "@fontsource/roboto";
     import { currentPageStore } from "../stores";
 
     import iconUrl from "$lib/assets/icon.svg";
