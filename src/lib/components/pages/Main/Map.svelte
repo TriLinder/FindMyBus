@@ -1,7 +1,7 @@
 <script lang="ts">
     import 'leaflet/dist/leaflet.css';
     import "leaflet.locatecontrol/dist/L.Control.Locate.min.css";
-    import stopIconUrl from "$lib/map-icons/stop.svg";
+    import stopIconUrl from "$lib/assets/map-icons/stop.svg";
 
     import { _ } from 'svelte-i18n';
     import L from "leaflet";
