@@ -13,7 +13,7 @@
         await initI18n();
 
         // Done! :D
-        $currentPageStore = 'map';
+        $currentPageStore = 'main';
     }
 
     onMount(load);

@@ -8,8 +8,7 @@
     import { LocateControl } from "leaflet.locatecontrol";
     import { onMount, onDestroy } from "svelte";
 
-    import { fetchStaticGtfs, fetchRealtimeGtfs } from '$lib/gtfs/api';
-    import { staticGtfsDataStore, realtimeGtfsDataStore, mapPositionStore, currentPageStore } from '../../../../stores';
+    import { staticGtfsDataStore, realtimeGtfsDataStore, mapPositionStore } from '../../../../stores';
     import type { Stop, Vehicle } from '$lib/gtfs/types';
     import VehiclePopup from './VehiclePopup.svelte';
 
@@ -213,8 +212,8 @@
 
 <style>
     #map {
-        width: 1000px;
-        height: 500px;
+        width: 100%;
+        height: 100%;
     }
 
     :global(.vehicle-marker-container) {
@@ -247,11 +246,6 @@
 </style>
 
 <div id="map"></div>
-<br> <button on:click={function() {fetchStaticGtfs('http://localhost:8000/gtfs.zip')}}>Update static</button>
-<br> <button on:click={function() {fetchRealtimeGtfs('http://localhost:8000/gtfsReal.dat')}}>Update realtime</button>
-<br> <button on:click={function() {$currentPageStore = 'settings'}}>Settings</button>
-
-{Object.keys(vehicleMarkers).length} vehicles on screen
 
 <!-- This is where the popup content gets pulled from when clicking on a vehicle -->
 <div style="display: none;">
