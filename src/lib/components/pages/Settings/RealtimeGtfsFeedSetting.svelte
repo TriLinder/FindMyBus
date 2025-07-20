@@ -1,11 +1,11 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
     import { settingsStore } from "../../../../stores";
-    import { fetchStaticGtfs } from "$lib/gtfs/api";
+    import { fetchRealtimeGtfs } from "$lib/gtfs/api";
 
-    import { Block, Button, Dialog, DialogButton, ListInput, Preloader } from "konsta/svelte";
+    import { Block, Button, Dialog, ListInput, Preloader, DialogButton } from "konsta/svelte";
 
-    let url = $settingsStore.staticGtfsUrl;
+    let url = $settingsStore.realtimeGtfsUrl;
     let working = false;
     let error = '';
 
@@ -15,10 +15,10 @@
         working = true;
 
         try {
-            await fetchStaticGtfs(url); // attempt to fetch the feed with the provided URL
+            await fetchRealtimeGtfs(url); // attempt to fetch the feed with the provided URL
 
             // That was simple - everything seems to have gone fine!
-            $settingsStore.staticGtfsUrl = url;
+            $settingsStore.realtimeGtfsUrl = url;
             working = false;
         } catch(exception) {
             // Oh oh, something failed - this shows the error dialog
@@ -39,22 +39,16 @@
     }
 </style>
 
-<ListInput label={$_('settings.staticGtfsFeedSetting.label')} placeholder="https://gtfs.example.com/..." type="text" value={url} onInput={function(e) {url = e.target.value.replaceAll(' ', '')}}/>
+<ListInput label={$_('settings.realtimeGtfsFeedSetting.label')} placeholder="https://gtfs.example.com/..." type="text" value={url} onInput={function(e) {url = e.target.value.replaceAll(' ', '')}}/>
 
 <div class="center">
     <div class="button">
-        <Button disabled={working || url === ''} {onClick}>
-            {#if url === $settingsStore.staticGtfsUrl && url != ''}
-                {$_('settings.staticGtfsFeedSetting.refresh')}
-            {:else}
-                {$_('settings.staticGtfsFeedSetting.set')}
-            {/if}
-        </Button>
+        <Button disabled={working || url === ''} {onClick}>{$_('settings.realtimeGtfsFeedSetting.set')}</Button>
     </div>
 </div>
 
 <Dialog opened={working && !error}>
-    <svelte:fragment slot="title">{$_('settings.staticGtfsFeedSetting.dialog.title')}</svelte:fragment>
+    <svelte:fragment slot="title">{$_('settings.realtimeGtfsFeedSetting.dialog.title')}</svelte:fragment>
     {$_('generic.pleaseWait')} <br><br>
     
     <div class="text-center">
@@ -64,7 +58,7 @@
 
 <Dialog opened={working && error.length > 0} onBackdropClick={function() {working = false}}>
     <svelte:fragment slot="title">{$_('generic.error')}</svelte:fragment>
-    {$_('settings.staticGtfsFeedSetting.dialog.errors.failed')}
+    {$_('settings.realtimeGtfsFeedSetting.dialog.errors.failed')}
 
     <Block strong>
         {error}

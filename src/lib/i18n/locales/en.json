@@ -42,6 +42,16 @@
                     "failed": "Fetching GTFS static data failed. Please make sure you have provided a valid GTFS feed URL and are connected to the internet."
                 }
             }
+        },
+        "realtimeGtfsFeedSetting": {
+            "label": "Realtime GTFS feed URL",
+            "set": "Set realtime GTFS feed URL",
+            "dialog": {
+                "title": "Validating feed",
+                "errors": {
+                    "failed": "Fetching GTFS realtime data failed. Please make sure you have provided a valid GTFS feed URL and are connected to the internet."
+                }
+            }
         }
     }
 }
