@@ -19,6 +19,17 @@ type RealtimeGtfsData = {
     vehicles: Vehicle[]
 }
 
+type Settings = {
+    dataTypeVersion: 0;
+    staticGtfsUrl: string;
+    realtimeGtfsUrl: string;
+    language: 'en';
+    speedUnits: 'kmph' | 'mph' | 'mps';
+    timeFormat: '12hour' | '24hour';
+    darkMode: 'on' | 'off' | 'system';
+    showVehicleMarkerLabels: boolean;
+}
+
 type MapPosition = {
     dataTypeVersion: 0;
     location: L.LatLng,
@@ -44,6 +55,21 @@ export const realtimeGtfsDataStore = writable<RealtimeGtfsData>({
     localTimestamp: new Date().toString(),
     feedTimestamp: new Date().toString(),
     vehicles: []
+});
+
+export const settingsStore = objectStore<Settings>({
+    storeName: 'com.jakubhlavacek.gtfsrealtimemap.settings',
+    initialValue: {
+        dataTypeVersion: 0,
+        staticGtfsUrl: '',
+        realtimeGtfsUrl: '',
+        language: 'en',
+        speedUnits: 'kmph',
+        timeFormat: '24hour',
+        darkMode: 'off',
+        showVehicleMarkerLabels: true
+    },
+    persist: true
 });
 
 export const mapPositionStore = objectStore<MapPosition>({

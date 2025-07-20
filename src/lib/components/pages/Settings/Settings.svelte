@@ -1,10 +1,15 @@
 <script lang="ts">
-    import { currentPageStore } from "../../../../stores";
+    import { _ } from "svelte-i18n";
 
-    import { Navbar, Block } from "konsta/svelte";
+    import { Navbar, Block, BlockTitle, List } from "konsta/svelte";
+
+    import StaticGtfsFeedSetting from "./StaticGtfsFeedSetting.svelte";
 </script>
 
-<Navbar title="Settings"/> 
+<Navbar title={$_('settings.title')}/> 
+<BlockTitle medium>{$_('settings.gtfsFeed')}</BlockTitle>
 <Block strong>
-    Hello, world!
+    <List>
+        <StaticGtfsFeedSetting/>
+    </List>
 </Block>

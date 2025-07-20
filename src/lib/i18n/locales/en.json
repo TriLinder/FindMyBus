@@ -1,4 +1,10 @@
 {
+    "generic": {
+        "error": "Error",
+        "ok": "Ok",
+        "confirm": "Confirm",
+        "pleaseWait": "Please wait. This may take some time."
+    },
     "map": {
         "errors": {
             "failedToGeneratePopupContent": "Failed to generate popup content."
@@ -20,6 +26,21 @@
                 "noPosition": "No position information for this vehicle.",
                 "unknownTrip": "Unknown trip. Consider refreshing static GTFS data?",
                 "unknownRoute": "No trip information. Consider refreshing static GTFS data?"
+            }
+        }
+    },
+    "settings": {
+        "title": "Settings",
+        "gtfsFeed": "GTFS Feed",
+        "staticGtfsFeedSetting": {
+            "label": "Static GTFS feed URL",
+            "set": "Set static GTFS feed URL",
+            "refresh": "Refresh static GTFS data",
+            "dialog": {
+                "title": "Fetching and parsing data",
+                "errors": {
+                    "failed": "Fetching GTFS static data failed. Please make sure you have provided a valid GTFS feed URL and are connected to the internet."
+                }
             }
         }
     }
