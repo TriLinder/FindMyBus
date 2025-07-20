@@ -8,6 +8,7 @@
     import LanguageSetting from "./LanguageSetting.svelte";
     import DarkModeSetting from "./DarkModeSetting.svelte";
     import SpeedUnitsSeting from "./SpeedUnitsSeting.svelte";
+    import TimeFormatSetting from "./TimeFormatSetting.svelte";
 </script>
 
 <Navbar title={$_('settings.title')}/> 
@@ -23,4 +24,5 @@
     <LanguageSetting/>
     <DarkModeSetting/>
     <SpeedUnitsSeting/>
+    <TimeFormatSetting/>
 </List>
