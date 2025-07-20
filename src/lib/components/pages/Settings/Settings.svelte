@@ -6,6 +6,7 @@
     import StaticGtfsFeedSetting from "./StaticGtfsFeedSetting.svelte";
     import RealtimeGtfsFeedSetting from "./RealtimeGtfsFeedSetting.svelte";
     import LanguageSetting from "./LanguageSetting.svelte";
+    import DarkModeSetting from "./DarkModeSetting.svelte";
 </script>
 
 <Navbar title={$_('settings.title')}/> 
@@ -19,4 +20,5 @@
 <BlockTitle medium>{$_('settings.visual')}</BlockTitle>
 <List strong>
     <LanguageSetting/>
+    <DarkModeSetting/>
 </List>
