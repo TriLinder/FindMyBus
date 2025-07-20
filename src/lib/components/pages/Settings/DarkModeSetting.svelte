@@ -1,22 +1,18 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
-
     import { settingsStore } from "../../../../stores";
+    import RadioGroupSettingTemplate from "./RadioGroupSettingTemplate.svelte";
 
-    import { BlockTitle, List, ListItem, Radio } from "konsta/svelte";
-
-    const options: {value: 'off' | 'on' | 'system'; label: string}[] = [
+    const options = [
         {value: 'on', label: $_('settings.darkModeSetting.on')},
         {value: 'off', label: $_('settings.darkModeSetting.off')},
         {value: 'system', label: $_('settings.darkModeSetting.system')}
-    ];
+    ] as const;
 </script>
 
-<BlockTitle>{$_('settings.darkModeSetting.label')}</BlockTitle>
-<List>
-    {#each options as option}
-        <ListItem label title={option.label}>
-            <Radio slot="media" component="div" value={option.value} checked={$settingsStore.darkMode === option.value} onChange={function() {$settingsStore.darkMode = option.value}}/>
-        </ListItem>
-    {/each}
-</List>
+<RadioGroupSettingTemplate
+    blockTitle={$_('settings.darkModeSetting.label')}
+    store={settingsStore}
+    storeAttribute="darkMode"
+    options={options}
+/>
