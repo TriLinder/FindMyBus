@@ -5,12 +5,18 @@
 
     import StaticGtfsFeedSetting from "./StaticGtfsFeedSetting.svelte";
     import RealtimeGtfsFeedSetting from "./RealtimeGtfsFeedSetting.svelte";
+    import LanguageSetting from "./LanguageSetting.svelte";
 </script>
 
 <Navbar title={$_('settings.title')}/> 
-<BlockTitle medium>{$_('settings.gtfsFeed')}</BlockTitle>
 
+<BlockTitle medium>{$_('settings.gtfsFeed')}</BlockTitle>
 <List strong>
     <StaticGtfsFeedSetting/>
     <RealtimeGtfsFeedSetting/>
+</List>
+
+<BlockTitle medium>{$_('settings.visual')}</BlockTitle>
+<List strong>
+    <LanguageSetting/>
 </List>

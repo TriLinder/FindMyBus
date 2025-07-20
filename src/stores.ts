@@ -23,7 +23,7 @@ type Settings = {
     dataTypeVersion: 0;
     staticGtfsUrl: string;
     realtimeGtfsUrl: string;
-    language: 'en';
+    language: 'en' | 'cs';
     speedUnits: 'kmph' | 'mph' | 'mps';
     timeFormat: '12hour' | '24hour';
     darkMode: 'on' | 'off' | 'system';
