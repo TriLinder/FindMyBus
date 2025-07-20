@@ -1,7 +1,8 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
+    import { currentPageStore } from "../../../../stores";
 
-    import { Navbar, Block, BlockTitle, List } from "konsta/svelte";
+    import { Navbar, NavbarBackLink, BlockTitle, List } from "konsta/svelte";
 
     import StaticGtfsFeedSetting from "./StaticGtfsFeedSetting.svelte";
     import RealtimeGtfsFeedSetting from "./RealtimeGtfsFeedSetting.svelte";
@@ -12,7 +13,9 @@
     import ShowVehicleMarkerLabelsSetting from "./ShowVehicleMarkerLabelsSetting.svelte";
 </script>
 
-<Navbar title={$_('settings.title')}/> 
+<Navbar title={$_('settings.title')}>
+    <NavbarBackLink slot="left" text="Back" onClick={function() {$currentPageStore = 'main'}} />
+</Navbar> 
 
 <BlockTitle medium>{$_('settings.gtfsFeed')}</BlockTitle>
 <List strong>
