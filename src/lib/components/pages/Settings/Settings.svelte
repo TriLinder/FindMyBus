@@ -9,6 +9,7 @@
     import DarkModeSetting from "./DarkModeSetting.svelte";
     import SpeedUnitsSeting from "./SpeedUnitsSeting.svelte";
     import TimeFormatSetting from "./TimeFormatSetting.svelte";
+    import ShowVehicleMarkerLabelsSetting from "./ShowVehicleMarkerLabelsSetting.svelte";
 </script>
 
 <Navbar title={$_('settings.title')}/> 
@@ -25,4 +26,5 @@
     <DarkModeSetting/>
     <SpeedUnitsSeting/>
     <TimeFormatSetting/>
+    <ShowVehicleMarkerLabelsSetting/>
 </List>
