@@ -52,6 +52,30 @@
                     "failed": "Fetching GTFS realtime data failed. Please make sure you have provided a valid GTFS feed URL and are connected to the internet."
                 }
             }
+        },
+        "visual": "Visual",
+        "languageSettingSetting": {
+            "label": "Language"
+        },
+        "speedUnitsSetting": {
+            "label": "Speed units",
+            "kmph": "kilometers per hour",
+            "mph": "miles per hour",
+            "mps": "meters per second"
+        },
+        "timeFormatSetting": {
+            "label": "Time format",
+            "12hour": "12-hour format (01:00 PM)",
+            "24hour": "24-hour format (13:00)"
+        },
+        "darkModeSetting": {
+            "label": "Dark mode",
+            "on": "On",
+            "off": "Off",
+            "system": "System"
+        },
+        "showVehicleMarkerLabelsSetting": {
+            "label": "Show vehicle text labels on map"
         }
     }
 }
