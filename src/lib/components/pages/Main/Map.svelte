@@ -8,7 +8,7 @@
     import { LocateControl } from "leaflet.locatecontrol";
     import { onMount, onDestroy } from "svelte";
 
-    import { staticGtfsDataStore, realtimeGtfsDataStore, mapPositionStore } from '../../../../stores';
+    import { staticGtfsDataStore, realtimeGtfsDataStore, mapPositionStore, settingsStore } from '../../../../stores';
     import type { Stop, Vehicle } from '$lib/gtfs/types';
     import VehiclePopup from './VehiclePopup.svelte';
 
@@ -105,7 +105,7 @@
                         if (route.color.generic) {genericColor = '#' + route.color.generic};
                         if (route.color.text) {textColor = '#' + (route.color.text || 'ffffff')};
 
-                        if (route.name.short && route.name.short.length >= 1 && route.name.short.length <= 4) {
+                        if (route.name.short && route.name.short.length >= 1 && route.name.short.length <= 4 && $settingsStore.showVehicleMarkerLabels) {
                             label = route.name.short;
                         }
                     }
