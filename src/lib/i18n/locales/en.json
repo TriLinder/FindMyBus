@@ -5,6 +5,9 @@
         "confirm": "Confirm",
         "pleaseWait": "Please wait. This may take some time."
     },
+    "main": {
+        "title": "Map"
+    },
     "map": {
         "errors": {
             "failedToGeneratePopupContent": "Failed to generate popup content."
