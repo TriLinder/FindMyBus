@@ -109,6 +109,11 @@
         padding: 5px;
     }
 
+    hr {
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+
     .row {
         display: flex;
         align-items: center;
