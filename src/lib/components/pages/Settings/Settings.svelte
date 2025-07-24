@@ -9,6 +9,7 @@
     import RealtimeGtfsFeedUpdateIntervalSetting from "./RealtimeGtfsFeedUpdateIntervalSetting.svelte";
     import LanguageSetting from "./LanguageSetting.svelte";
     import DarkModeSetting from "./DarkModeSetting.svelte";
+    import ThemeSetting from "./ThemeSetting.svelte";
     import SpeedUnitsSeting from "./SpeedUnitsSeting.svelte";
     import TimeFormatSetting from "./TimeFormatSetting.svelte";
     import ShowVehicleMarkerLabelsSetting from "./ShowVehicleMarkerLabelsSetting.svelte";
@@ -29,6 +30,7 @@
 <List strong>
     <LanguageSetting/>
     <DarkModeSetting/>
+    <ThemeSetting/>
     <SpeedUnitsSeting/>
     <TimeFormatSetting/>
     <ShowVehicleMarkerLabelsSetting/>

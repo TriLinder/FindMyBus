@@ -19,8 +19,8 @@
     <link rel="icon" href={iconUrl} />
 </svelte:head>
 
-{#key useDarkMode}
-    <App theme="material" safeAreas dark={useDarkMode}>
+{#key [useDarkMode, $settingsStore.theme]}
+    <App theme={$settingsStore.theme} safeAreas dark={useDarkMode}>
         <Page>
             {#if $currentPageStore === 'loading'}
                 <Loading/>

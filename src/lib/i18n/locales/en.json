@@ -80,6 +80,11 @@
             "off": "Off",
             "system": "System"
         },
+        "themeSetting": {
+            "label": "Theme",
+            "ios": "iPhone",
+            "material": "Android"
+        },
         "showVehicleMarkerLabelsSetting": {
             "label": "Show vehicle text labels on map"
         }

@@ -28,6 +28,7 @@ type Settings = {
     speedUnits: 'kmph' | 'mph' | 'mps';
     timeFormat: '12hour' | '24hour';
     darkMode: 'on' | 'off' | 'system';
+    theme: 'ios' | 'material';
     showVehicleMarkerLabels: boolean;
 }
 
@@ -69,6 +70,7 @@ export const settingsStore = objectStore<Settings>({
         speedUnits: 'kmph',
         timeFormat: '24hour',
         darkMode: 'off',
+        theme: 'material',
         showVehicleMarkerLabels: true
     },
     persist: true
