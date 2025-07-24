@@ -1,11 +1,14 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { initI18n } from "$lib/i18n";
-    import { staticGtfsDataStore, mapPositionStore, currentPageStore } from "../../../../stores";
+    import { settingsStore, staticGtfsDataStore, mapPositionStore, currentPageStore } from "../../../../stores";
+    import { fetchRealtimeGtfs } from "$lib/gtfs/api";
 
     async function load() {
         // Wait for the persistent stores
         // to initialize
+        await settingsStore.init();
+        if ($settingsStore.realtimeGtfsUrl) {fetchRealtimeGtfs($settingsStore.realtimeGtfsUrl)}; // begin fetching the realtime feed while we wait here
         await staticGtfsDataStore.init();
         await mapPositionStore.init();
 
