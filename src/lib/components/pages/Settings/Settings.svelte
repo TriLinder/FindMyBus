@@ -6,6 +6,7 @@
 
     import StaticGtfsFeedSetting from "./StaticGtfsFeedSetting.svelte";
     import RealtimeGtfsFeedSetting from "./RealtimeGtfsFeedSetting.svelte";
+    import RealtimeGtfsFeedUpdateIntervalSetting from "./RealtimeGtfsFeedUpdateIntervalSetting.svelte";
     import LanguageSetting from "./LanguageSetting.svelte";
     import DarkModeSetting from "./DarkModeSetting.svelte";
     import SpeedUnitsSeting from "./SpeedUnitsSeting.svelte";
@@ -21,6 +22,7 @@
 <List strong>
     <StaticGtfsFeedSetting/>
     <RealtimeGtfsFeedSetting/>
+    <RealtimeGtfsFeedUpdateIntervalSetting/>
 </List>
 
 <BlockTitle medium>{$_('settings.visual')}</BlockTitle>

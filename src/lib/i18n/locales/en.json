@@ -53,6 +53,9 @@
                 }
             }
         },
+        "realtimeGtfsUpdateIntervalSetting": {
+            "label": "Update realtime GTFS feed every {value} seconds."
+        },
         "visual": "Visual",
         "languageSettingSetting": {
             "label": "Language"

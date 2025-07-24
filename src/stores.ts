@@ -23,6 +23,7 @@ type Settings = {
     dataTypeVersion: 0;
     staticGtfsUrl: string;
     realtimeGtfsUrl: string;
+    realtimeGtfsUpdateInterval: number;
     language: 'en' | 'cs';
     speedUnits: 'kmph' | 'mph' | 'mps';
     timeFormat: '12hour' | '24hour';
@@ -63,6 +64,7 @@ export const settingsStore = objectStore<Settings>({
         dataTypeVersion: 0,
         staticGtfsUrl: '',
         realtimeGtfsUrl: '',
+        realtimeGtfsUpdateInterval: 5,
         language: 'en',
         speedUnits: 'kmph',
         timeFormat: '24hour',
