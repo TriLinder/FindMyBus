@@ -1,7 +1,7 @@
 <script lang="ts">;
     import "../app.css";
     import "@fontsource/roboto";
-    import { currentPageStore } from "../stores";
+    import { currentPageStore, settingsStore } from "../stores";
 
     import iconUrl from "$lib/assets/icon.svg";
 
@@ -9,6 +9,9 @@
     import Loading from "$lib/components/pages/Loading/Loading.svelte";
     import Main from "$lib/components/pages/Main/Main.svelte";
     import Settings from "$lib/components/pages/Settings/Settings.svelte";
+
+    const systemPrefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    $: useDarkMode = ($settingsStore.darkMode === 'on') || ($settingsStore.darkMode === 'system' && systemPrefersDarkMode);
 </script>
 
 <svelte:head>
@@ -16,16 +19,18 @@
     <link rel="icon" href={iconUrl} />
 </svelte:head>
 
-<App theme="material" dark={false}>
-    <Page>
-        {#if $currentPageStore === 'loading'}
-            <Loading/>
-        {:else if $currentPageStore === 'main'}
-            <Main/>
-        {:else if $currentPageStore === 'settings'}
-            <Settings/>
-        {:else}
-            <p>Unknown page! {$currentPageStore}</p>
-        {/if}
-    </Page>
-</App>
+{#key useDarkMode}
+    <App theme="material" safeAreas dark={useDarkMode}>
+        <Page>
+            {#if $currentPageStore === 'loading'}
+                <Loading/>
+            {:else if $currentPageStore === 'main'}
+                <Main/>
+            {:else if $currentPageStore === 'settings'}
+                <Settings/>
+            {:else}
+                <p>Unknown page! {$currentPageStore}</p>
+            {/if}
+        </Page>
+    </App>
+{/key}
