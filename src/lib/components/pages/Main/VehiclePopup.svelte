@@ -1,7 +1,7 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
     import { staticGtfsDataStore } from "../../../../stores";
-    import { parseStopTimeStringToLocalTimezoneToday } from "$lib/utils";
+    import { parseStopTimeStringToLocalTimezoneToday, speedInUsersPreferredUnitsString } from "$lib/utils";
     import type { Vehicle, Stop, Trip, Route } from "$lib/gtfs/types";
 
     import Icon from "svelte-awesome";
@@ -73,7 +73,7 @@
 
         // Get the vehicle's speed and convert it
         // (only to kmph for now)
-        speedString = vehicle.position.speed ? `${Math.round(vehicle.position.speed * 3.6)} km/h` : null;
+        speedString = vehicle.position.speed ? speedInUsersPreferredUnitsString(vehicle.position.speed) : null;
 
         // Get the route type
         if (route.type) {
