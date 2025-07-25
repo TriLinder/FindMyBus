@@ -1,7 +1,9 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
-    import { currentPageStore } from "../../../../stores";
-    import { fetchStaticGtfs, fetchRealtimeGtfs } from "$lib/gtfs/api";
+    import { onMount, onDestroy } from "svelte";
+
+    import { currentPageStore, realtimeGtfsDataStore, settingsStore } from "../../../../stores";
+    import { fetchRealtimeGtfs } from "$lib/gtfs/api";
 
     import { Link, Navbar } from "konsta/svelte";
     import Icon from "svelte-awesome";
@@ -9,6 +11,38 @@
     import refresh from 'svelte-awesome/icons/refresh';
     
     import Map from "./Map.svelte";
+
+    let realtimeFeedAgeSeconds = 0;
+    let lastFetchAttemptTimestamp = 0;
+    let fetchingState: 'ok' | 'fetching' | 'error' = 'ok';
+
+    let updateInterval: ReturnType<typeof setInterval>;
+
+    async function update() {
+        // If the realtime feed is older than the
+        // update interval, it's time to fetch it again.
+        realtimeFeedAgeSeconds = (Date.now() - new Date($realtimeGtfsDataStore.localTimestamp).getTime()) / 1000;
+        if ((realtimeFeedAgeSeconds > $settingsStore.realtimeGtfsUpdateInterval) &&
+            ((fetchingState === 'ok') || (fetchingState === 'error' && (Date.now() - lastFetchAttemptTimestamp > 10*1000)))
+        ) {
+            try {
+                fetchingState = 'fetching';
+                lastFetchAttemptTimestamp = Date.now();
+                await fetchRealtimeGtfs($settingsStore.realtimeGtfsUrl);
+                fetchingState = 'ok';
+            } catch {
+                fetchingState = 'error';
+            }
+        }
+    }
+
+    onMount(function() {
+        updateInterval = setInterval(update, 100);
+    });
+
+    onDestroy(function() {
+        clearInterval(updateInterval);
+    });
 </script>
 
 <style>
@@ -39,7 +73,15 @@
         </Link>
 
         <div class="infobar" slot="subtitle">
-            <span>Last refreshed YY seconds ago.</span>
+            <span>
+                {#if fetchingState === 'ok'}
+                    {$_('main.infobar.lastRefreshed', {values: {value: Math.round(realtimeFeedAgeSeconds)}})}
+                {:else if fetchingState === 'fetching'}
+                    {$_('main.infobar.fetching')}
+                {:else if fetchingState === 'error'}
+                    {$_('main.infobar.error')}
+                {/if}
+            </span>
         </div>
     </Navbar>
 

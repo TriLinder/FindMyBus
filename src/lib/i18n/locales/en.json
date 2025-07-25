@@ -6,7 +6,12 @@
         "pleaseWait": "Please wait. This may take some time."
     },
     "main": {
-        "title": "Map"
+        "title": "Map",
+        "infobar": {
+            "lastRefreshed": "Last refreshed {value} seconds ago.",
+            "fetching": "Refreshing...",
+            "error": "Failed to load realtime GTFS feed."
+        }
     },
     "map": {
         "errors": {

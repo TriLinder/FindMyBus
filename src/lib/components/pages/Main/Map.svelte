@@ -13,7 +13,6 @@
     import VehiclePopup from './VehiclePopup.svelte';
 
     let map: L.Map;
-    let updateInterval: ReturnType<typeof setInterval>;
 
     let stopsLastDrawn: Stop[] = [];
     const stopMarkers: Record<string, L.Marker> = {};
@@ -161,6 +160,7 @@
         // Remove any existing markers and all them back in
         // This is done after zooming and GTFS realtime
         // updates to update the map.
+        console.log('Upadting vehicle map markers.');
         drawStops();
         drawVehicles();
     }
@@ -200,13 +200,9 @@
         new LocateControl({keepCurrentZoomLevel: true, showPopup: false, locateOptions: {watch: true}}).addTo(map).start();
 
         // Event handlers
-        updateInterval = setInterval(updateMarkers, 2000);
+        realtimeGtfsDataStore.subscribe(function(value) {updateMarkers()});
         map.addEventListener("zoomend", onMapInteraction);
         map.addEventListener("moveend", onMapInteraction);
-    });
-
-    onDestroy(function() {
-        clearInterval(updateInterval);
     });
 </script>
 
