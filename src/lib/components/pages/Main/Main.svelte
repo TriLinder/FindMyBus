@@ -18,6 +18,17 @@
 
     let updateInterval: ReturnType<typeof setInterval>;
 
+    async function fetch() {
+        try {
+            fetchingState = 'fetching';
+            lastFetchAttemptTimestamp = Date.now();
+            await fetchRealtimeGtfs($settingsStore.realtimeGtfsUrl);
+            fetchingState = 'ok';
+        } catch {
+            fetchingState = 'error';
+        }
+    }
+
     async function update() {
         // If the realtime feed is older than the
         // update interval, it's time to fetch it again.
@@ -25,14 +36,7 @@
         if ((realtimeFeedAgeSeconds > $settingsStore.realtimeGtfsUpdateInterval) &&
             ((fetchingState === 'ok') || (fetchingState === 'error' && (Date.now() - lastFetchAttemptTimestamp > 10*1000)))
         ) {
-            try {
-                fetchingState = 'fetching';
-                lastFetchAttemptTimestamp = Date.now();
-                await fetchRealtimeGtfs($settingsStore.realtimeGtfsUrl);
-                fetchingState = 'ok';
-            } catch {
-                fetchingState = 'error';
-            }
+            await fetch();
         }
     }
 
@@ -68,7 +72,7 @@
         </Link>
 
         <!-- refresh button -->
-        <Link navbar iconOnly slot="right">
+        <Link navbar iconOnly slot="right" onClick={function() {if (fetchingState != 'fetching') {fetch()}}}>
             <Icon data={refresh}/>
         </Link>
 
