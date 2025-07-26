@@ -43,7 +43,7 @@
 
 <div class="center">
     <div class="button">
-        <Button disabled={working || url === ''} {onClick}>{$_('settings.realtimeGtfsFeedSetting.set')}</Button>
+        <Button disabled={working || url === '' || url === $settingsStore.realtimeGtfsUrl} {onClick}>{$_('settings.realtimeGtfsFeedSetting.set')}</Button>
     </div>
 </div>
 
