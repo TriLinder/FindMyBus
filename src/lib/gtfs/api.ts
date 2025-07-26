@@ -7,6 +7,8 @@ import GtfsRealtimeBindings from "gtfs-realtime-bindings";
 import { staticGtfsDataStore, realtimeGtfsDataStore } from '../../stores';
 import type { Stop, Route, Trip, Vehicle } from './types';
 
+const USER_AGENT = 'findmybus-app';
+
 function base64ToUint8Array(base64: string): Uint8Array {
     const binaryString = window.atob(base64);
     const len = binaryString.length;
@@ -74,6 +76,7 @@ export async function fetchStaticGtfs(url: string) {
             'Cache-Control': 'no-cache, no-store, must-revalidate',
             'Pragma': 'no-cache',
             'Expires': '0',
+            'User-Agent': USER_AGENT
         },
         connectTimeout: 4000,
         readTimeout: 4000
@@ -223,6 +226,7 @@ export async function fetchRealtimeGtfs(url: string) {
             'Cache-Control': 'no-cache, no-store, must-revalidate',
             'Pragma': 'no-cache',
             'Expires': '0',
+            'User-Agent': USER_AGENT
         },
         connectTimeout: 4000,
         readTimeout: 4000
