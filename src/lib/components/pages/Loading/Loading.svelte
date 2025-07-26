@@ -13,12 +13,13 @@
         if ($settingsStore.realtimeGtfsUrl) {fetchRealtimeGtfs($settingsStore.realtimeGtfsUrl)}; // begin fetching the realtime feed while we wait here
         await staticGtfsDataStore.init();
         await mapPositionStore.init();
+        await finishedInteractionsStore.init();
 
         // Wait for i18n to initialize
         await initI18n();
 
         // Done! 🎉
-        if (!$finishedInteractionsStore.finishedInteractions.includes('onboarding')) {
+        if (!$finishedInteractionsStore.includes('onboarding')) {
             $currentPageStore = 'onboarding';
         } else {
             $currentPageStore = 'main';

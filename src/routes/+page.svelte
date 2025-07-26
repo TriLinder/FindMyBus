@@ -13,6 +13,7 @@
 
     const systemPrefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
     $: useDarkMode = ($settingsStore.darkMode === 'on') || ($settingsStore.darkMode === 'system' && systemPrefersDarkMode);
+    $: theme = $settingsStore.theme;
 </script>
 
 <svelte:head>
@@ -24,8 +25,8 @@
     <Loading/>
 {/if}
 
-{#key [useDarkMode, $settingsStore.theme]}
-    <App theme={$settingsStore.theme} safeAreas dark={useDarkMode}>
+{#key [useDarkMode, theme]}
+    <App {theme} safeAreas dark={useDarkMode}>
         <Page>
             {#if $currentPageStore === 'main'}
                 <Main/>

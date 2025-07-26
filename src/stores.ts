@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { objectStore } from 'svelte-capacitor-store';
+import { objectStore, arrayStore } from 'svelte-capacitor-store';
 import L from "leaflet";
 
 import type { Stop, Route, Trip, Vehicle } from "$lib/gtfs/types";
@@ -36,11 +36,6 @@ type MapPosition = {
     dataTypeVersion: 0;
     location: L.LatLng,
     zoomLevel: number
-}
-
-type FinishedInteractions = {
-    dataTypeVersion: 0;
-    finishedInteractions: ('onboarding')[];
 }
 
 type Page = 'loading' | 'main' | 'onboarding' | 'settings';
@@ -91,12 +86,9 @@ export const mapPositionStore = objectStore<MapPosition>({
     persist: true
 });
 
-export const finishedInteractionsStore = objectStore<FinishedInteractions>({
+export const finishedInteractionsStore = arrayStore<('onboarding')[]>({
     storeName: "com.jakubhlavacek.gtfsrealtimemap.finishedInteractions",
-    initialValue: {
-        dataTypeVersion: 0,
-        finishedInteractions: []
-    },
+    initialValue: [],
     persist: true
 });
 
