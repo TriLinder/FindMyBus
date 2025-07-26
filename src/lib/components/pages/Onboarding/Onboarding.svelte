@@ -3,7 +3,7 @@
     import confetti from 'canvas-confetti';
     import { finishedInteractionsStore, currentPageStore, settingsStore } from '../../../../stores';
 
-    import { Block, BlockTitle, Button} from "konsta/svelte";
+    import { Block, BlockTitle, Button, List} from "konsta/svelte";
     
     import LanguageSetting from "../Settings/LanguageSetting.svelte";
     import StaticGtfsFeedSetting from "../Settings/StaticGtfsFeedSetting.svelte";
@@ -104,12 +104,12 @@
     </Block>
 
     <BlockTitle>{$_('onboarding.settings')}</BlockTitle>
-    <Block strong inset>
+    <List strong inset>
         <LanguageSetting/>
         <StaticGtfsFeedSetting/>
         <RealtimeGtfsFeedSetting/>
         <RealtimeGtfsFeedUpdateIntervalSetting/>
-    </Block>
+    </List>
 
     <div class="horizontal-center">
         <div class="finishButtonContainer">
