@@ -19,12 +19,14 @@
     <link rel="icon" href={iconUrl} />
 </svelte:head>
 
+{#if $currentPageStore === 'loading'}
+    <Loading/>
+{/if}
+
 {#key [useDarkMode, $settingsStore.theme]}
     <App theme={$settingsStore.theme} safeAreas dark={useDarkMode}>
         <Page>
-            {#if $currentPageStore === 'loading'}
-                <Loading/>
-            {:else if $currentPageStore === 'main'}
+            {#if $currentPageStore === 'main'}
                 <Main/>
             {:else if $currentPageStore === 'settings'}
                 <Settings/>
