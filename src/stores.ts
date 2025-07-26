@@ -38,7 +38,12 @@ type MapPosition = {
     zoomLevel: number
 }
 
-type Page = 'loading' | 'main' | 'settings';
+type FinishedInteractions = {
+    dataTypeVersion: 0;
+    finishedInteractions: ('onboarding')[];
+}
+
+type Page = 'loading' | 'main' | 'onboarding' | 'settings';
 
 export const staticGtfsDataStore = objectStore<StaticGtfsData>({
     storeName: "com.jakubhlavacek.gtfsrealtimemap.staticGtfsData",
@@ -82,6 +87,15 @@ export const mapPositionStore = objectStore<MapPosition>({
         dataTypeVersion: 0,
         location: L.latLng([50.0869250, 14.4207550]),
         zoomLevel: 4
+    },
+    persist: true
+});
+
+export const finishedInteractionsStore = objectStore<FinishedInteractions>({
+    storeName: "com.jakubhlavacek.gtfsrealtimemap.finishedInteractions",
+    initialValue: {
+        dataTypeVersion: 0,
+        finishedInteractions: []
     },
     persist: true
 });

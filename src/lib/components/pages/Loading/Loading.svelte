@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { initI18n } from "$lib/i18n";
-    import { settingsStore, staticGtfsDataStore, mapPositionStore, currentPageStore } from "../../../../stores";
+    import { settingsStore, staticGtfsDataStore, mapPositionStore, currentPageStore, finishedInteractionsStore } from "../../../../stores";
     import { fetchRealtimeGtfs } from "$lib/gtfs/api";
 
     import iconUrl from "$lib/assets/icon.svg";
@@ -18,7 +18,11 @@
         await initI18n();
 
         // Done! 🎉
-        $currentPageStore = 'main';
+        if (!$finishedInteractionsStore.finishedInteractions.includes('onboarding')) {
+            $currentPageStore = 'onboarding';
+        } else {
+            $currentPageStore = 'main';
+        }
     }
 
     onMount(load);
