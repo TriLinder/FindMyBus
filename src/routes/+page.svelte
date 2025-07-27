@@ -10,6 +10,7 @@
     import Main from "$lib/components/pages/Main/Main.svelte";
     import Onboarding from "$lib/components/pages/Onboarding/Onboarding.svelte";
     import Settings from "$lib/components/pages/Settings/Settings.svelte";
+    import About from "$lib/components/pages/About/About.svelte";
 
     const systemPrefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
     $: useDarkMode = ($settingsStore.darkMode === 'on') || ($settingsStore.darkMode === 'system' && systemPrefersDarkMode);
@@ -34,6 +35,8 @@
                 <Onboarding/>
             {:else if $currentPageStore === 'settings'}
                 <Settings/>
+            {:else if $currentPageStore === 'about'}
+                <About/>
             {:else}
                 <p style="color: red;">Unknown page! {$currentPageStore}</p>
             {/if}

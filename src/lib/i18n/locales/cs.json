@@ -3,7 +3,8 @@
         "error": "Chyba",
         "ok": "Ok",
         "confirm": "Potvrdit",
-        "pleaseWait": "Čekejte prosím. Toto může chvíli trvat."
+        "pleaseWait": "Čekejte prosím. Toto může chvíli trvat.",
+        "loading": "Načítání"
     },
     "main": {
         "title": "Poloha vozidel",
@@ -102,5 +103,11 @@
         "vehicleMarkerBackgroundBrightnessSetting": {
             "label": "Jas pozadí mapových ukazovatelech vozidel ({value}%)"
         }
+    },
+    "about": {
+        "title": "O aplikaci"
+    },
+    "dependencyAcknowledgments": {
+        "title": "Použité knihovny"
     }
 }

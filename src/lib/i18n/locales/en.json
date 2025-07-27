@@ -3,7 +3,8 @@
         "error": "Error",
         "ok": "Ok",
         "confirm": "Confirm",
-        "pleaseWait": "Please wait. This may take some time."
+        "pleaseWait": "Please wait. This may take some time.",
+        "loading": "Loading"
     },
     "main": {
         "title": "Vehicle positions",
@@ -102,5 +103,16 @@
         "vehicleMarkerBackgroundBrightnessSetting": {
             "label": "Vehicle marker background brightness ({value}%)"
         }
+    },
+    "about": {
+        "title": "About app",
+        "links": {
+            "myHomepage": "Check out more of my work",
+            "sourceCode": "Source code"
+        },
+        "version": "Version: {value}"
+    },
+    "dependencyAcknowledgments": {
+        "title": "Dependency acknowledgments"
     }
 }

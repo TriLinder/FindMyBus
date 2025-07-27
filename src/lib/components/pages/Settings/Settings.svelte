@@ -2,7 +2,7 @@
     import { _ } from "svelte-i18n";
     import { currentPageStore } from "../../../../stores";
 
-    import { Navbar, NavbarBackLink, BlockTitle, List } from "konsta/svelte";
+    import { Navbar, NavbarBackLink, BlockTitle, List, Button } from "konsta/svelte";
 
     import StaticGtfsFeedSetting from "./StaticGtfsFeedSetting.svelte";
     import RealtimeGtfsFeedSetting from "./RealtimeGtfsFeedSetting.svelte";
@@ -15,6 +15,22 @@
     import ShowVehicleMarkerLabelsSetting from "./ShowVehicleMarkerLabelsSetting.svelte";
     import VehicleMarkerBackgroundBrightnessSetting from "./VehicleMarkerBackgroundBrightnessSetting.svelte";
 </script>
+
+<style>
+    .horizontal-center {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .aboutButtonContainer {
+        width: 60vw;
+    }
+
+    .bottom-page-padding {
+        height: 40px;
+    }
+</style>
 
 <Navbar title={$_('settings.title')}>
     <NavbarBackLink slot="left" text="Back" onClick={function() {$currentPageStore = 'main'}} />
@@ -37,3 +53,11 @@
     <ShowVehicleMarkerLabelsSetting/>
     <VehicleMarkerBackgroundBrightnessSetting/>
 </List>
+
+<div class="horizontal-center">
+    <div class="aboutButtonContainer">
+        <Button onClick={function() {$currentPageStore = 'about'}}>{$_('about.title')}</Button>
+    </div>
+</div>
+
+<div class="bottom-page-padding"></div>
