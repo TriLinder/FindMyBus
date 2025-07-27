@@ -13,6 +13,7 @@
     import SpeedUnitsSeting from "./SpeedUnitsSeting.svelte";
     import TimeFormatSetting from "./TimeFormatSetting.svelte";
     import ShowVehicleMarkerLabelsSetting from "./ShowVehicleMarkerLabelsSetting.svelte";
+    import VehicleMarkerBackgroundBrightnessSetting from "./VehicleMarkerBackgroundBrightnessSetting.svelte";
 </script>
 
 <Navbar title={$_('settings.title')}>
@@ -20,18 +21,19 @@
 </Navbar> 
 
 <BlockTitle medium>{$_('settings.gtfsFeed')}</BlockTitle>
-<List strong>
+<List strong inset>
     <StaticGtfsFeedSetting/>
     <RealtimeGtfsFeedSetting/>
     <RealtimeGtfsFeedUpdateIntervalSetting/>
 </List>
 
 <BlockTitle medium>{$_('settings.visual')}</BlockTitle>
-<List strong>
+<List strong inset>
     <LanguageSetting/>
     <DarkModeSetting/>
     <ThemeSetting/>
     <SpeedUnitsSeting/>
     <TimeFormatSetting/>
     <ShowVehicleMarkerLabelsSetting/>
+    <VehicleMarkerBackgroundBrightnessSetting/>
 </List>
