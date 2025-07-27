@@ -39,7 +39,7 @@
     },
     "onboarding": {
         "title": "Welcome! 👋",
-        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec blandit leo massa, nec cursus leo eleifend nec. Donec molestie condimentum pulvinar. Sed purus elit, consequat et hendrerit eget, tristique at nisl. Ut in dapibus nibh. Cras ultricies odio nulla, nec ullamcorper est auctor et. Integer in fringilla augue, non suscipit ex. Fusce mollis ac lorem suscipit aliquam. Ut congue ultricies orci, congue suscipit tellus posuere a. Duis ante sem, accumsan eu sollicitudin ut, congue eu massa. Proin sodales quam quis sem fermentum sagittis.",
+        "text": "<b>Welcome to FindMyBus!</b><br><br>This app allows you to view public transport vehicles on a map in realtime. To do this, the app utilizes a realtime GTFS feed provided by many transit agencies around the world. Check if your local transit agency provides the feed as well, and if so, provide the URL of the static and realtime GTFS feed below. If your agency provides multiple real-time feeds, choose the one that includes vehicle position data.<br><br>Please note that FindMyBus currently only supports version 2.0 of the GTFS spec but also makes some extra assumptions about the contents of the GTFS feed. However, no issues were encountered while testing functionality with various transit agencies.<br><br>FindMyBus is open-source and made with ❤️.",
         "settings": "Initial set-up",
         "finishButton": "Let's go!"
     },
