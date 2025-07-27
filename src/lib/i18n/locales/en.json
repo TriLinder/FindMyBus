@@ -6,7 +6,7 @@
         "pleaseWait": "Please wait. This may take some time."
     },
     "main": {
-        "title": "Map",
+        "title": "Vehicle positions",
         "infobar": {
             "lastRefreshed": "Last refreshed {value} seconds ago.",
             "fetching": "Refreshing...",
