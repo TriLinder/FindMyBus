@@ -9,7 +9,9 @@
     import { onMount, onDestroy } from "svelte";
 
     import { staticGtfsDataStore, realtimeGtfsDataStore, mapPositionStore, settingsStore } from '../../../../stores';
+    import { adjustHexColorBrightness } from '$lib/utils';
     import type { Stop, Vehicle } from '$lib/gtfs/types';
+
     import VehiclePopup from './VehiclePopup.svelte';
 
     let map: L.Map;
@@ -95,7 +97,7 @@
                 // leave it empty
                 let label = "";
                 let genericColor = 'darkBlue';
-                let textColor = 'white';
+                let textColor = '#ffffff';
                 if (vehicle.tripId && Object.keys($staticGtfsDataStore.trips).includes(vehicle.tripId)) {
                     const trip = $staticGtfsDataStore.trips[vehicle.tripId];
                     if (Object.keys($staticGtfsDataStore.routes).includes(trip.routeId)) {
@@ -109,6 +111,10 @@
                         }
                     }
             }
+
+                
+                // Adjust the background color brightness
+                genericColor = adjustHexColorBrightness(genericColor, $settingsStore.vehicleMarkerBackgroundBrightness);
 
                 marker.setIcon(L.divIcon({html: `
                         <div class="vehicle-marker-container">

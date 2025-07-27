@@ -98,6 +98,9 @@
         },
         "showVehicleMarkerLabelsSetting": {
             "label": "Show vehicle text labels on map"
+        },
+        "vehicleMarkerBackgroundBrightnessSetting": {
+            "label": "Vehicle marker background brightness ({value}%)"
         }
     }
 }

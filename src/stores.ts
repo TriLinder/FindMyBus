@@ -30,6 +30,7 @@ type Settings = {
     darkMode: 'on' | 'off' | 'system';
     theme: 'ios' | 'material';
     showVehicleMarkerLabels: boolean;
+    vehicleMarkerBackgroundBrightness: number;
 }
 
 type MapPosition = {
@@ -71,7 +72,8 @@ export const settingsStore = objectStore<Settings>({
         timeFormat: '24hour',
         darkMode: 'off',
         theme: 'material',
-        showVehicleMarkerLabels: true
+        showVehicleMarkerLabels: true,
+        vehicleMarkerBackgroundBrightness: 1
     },
     persist: true
 });
