@@ -4,8 +4,8 @@
     import RadioGroupSettingTemplate from "./RadioGroupSettingTemplate.svelte";
 
     const options = [
-        {value: 'material', label: $_('settings.themeSetting.material')},
-        {value: 'ios', label: $_('settings.themeSetting.ios')}
+        {value: 'material', label: 'settings.themeSetting.material'},
+        {value: 'ios', label: 'settings.themeSetting.ios'}
     ] as const;
 </script>
 

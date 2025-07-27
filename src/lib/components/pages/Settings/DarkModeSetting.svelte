@@ -4,9 +4,9 @@
     import RadioGroupSettingTemplate from "./RadioGroupSettingTemplate.svelte";
 
     const options = [
-        {value: 'on', label: $_('settings.darkModeSetting.on')},
-        {value: 'off', label: $_('settings.darkModeSetting.off')},
-        {value: 'system', label: $_('settings.darkModeSetting.system')}
+        {value: 'on', label: 'settings.darkModeSetting.on'},
+        {value: 'off', label: 'settings.darkModeSetting.off'},
+        {value: 'system', label: 'settings.darkModeSetting.system'}
     ] as const;
 </script>
 

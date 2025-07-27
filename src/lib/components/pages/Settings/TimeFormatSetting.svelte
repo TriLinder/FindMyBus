@@ -4,8 +4,8 @@
     import RadioGroupSettingTemplate from "./RadioGroupSettingTemplate.svelte";
 
     const options = [
-        {value: '12hour', label: $_('settings.timeFormatSetting.12hour')},
-        {value: '24hour', label: $_('settings.timeFormatSetting.24hour')},
+        {value: '12hour', label: 'settings.timeFormatSetting.12hour'},
+        {value: '24hour', label: 'settings.timeFormatSetting.24hour'},
     ] as const;
 </script>
 

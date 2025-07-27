@@ -4,9 +4,9 @@
     import RadioGroupSettingTemplate from "./RadioGroupSettingTemplate.svelte";
 
     const options = [
-        {value: 'kmph', label: $_('settings.speedUnitsSetting.kmph')},
-        {value: 'mph', label: $_('settings.speedUnitsSetting.mph')},
-        {value: 'mps', label: $_('settings.speedUnitsSetting.mps')}
+        {value: 'kmph', label: 'settings.speedUnitsSetting.kmph'},
+        {value: 'mph', label: 'settings.speedUnitsSetting.mph'},
+        {value: 'mps', label: 'settings.speedUnitsSetting.mps'}
     ] as const;
 </script>
 

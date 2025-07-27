@@ -1,0 +1,106 @@
+{
+    "generic": {
+        "error": "Chyba",
+        "ok": "Ok",
+        "confirm": "Potvrdit",
+        "pleaseWait": "Čekejte prosím. Toto může chvíli trvat."
+    },
+    "main": {
+        "title": "Poloha vozidel",
+        "infobar": {
+            "lastRefreshed": "Naposledy obnoveno před {value} sekundami.",
+            "fetching": "Načítám...",
+            "error": "Nepodařilo se načíst dynamická GTFS data."
+        }
+    },
+    "map": {
+        "errors": {
+            "failedToGeneratePopupContent": "Nepodařilo se vygenerovat obsah popupu."
+        },
+        "vehiclePopup": {
+            "routeType": {
+                "tram": "Tramvaj",
+                "subway": "Metro",
+                "train": "Vlak",
+                "bus": "Autobus",
+                "ferry": "Loď",
+                "cableTram": "Lanová tramvaj",
+                "cableCar": "Lanovka",
+                "funicular": "Pozemní lanovka",
+                "trolleybus": "Trolejbus",
+                "monorail": "Monorail"
+            },
+            "errors": {
+                "noPosition": "Pro toto vozidlo nebyly nalezeny polohové informace.",
+                "unknownTrip": "Neznámý spoj. Zvažte obnovení statických GTFS dat?",
+                "unknownRoute": "Neznámá trasa. Zvažte obnovení statických GTFS dat?"
+            }
+        }
+    },
+    "onboarding": {
+        "title": "Vítejte! 👋",
+        "text": "<b>Vítejte k FindMyBus!</b><br><br>Tato aplikace vám umožňuje sledovat pozici vozidel veřejné dopravy na mapě v reálném čase. Toto je umožněno dynamickými GTFS daty, které jsou celosvětově poskytovány mnohými dopravními společnostmi. Pokud vaše místní dopravní společnost nabízí tyto dynamické GTFS data, můžete nastavit patřičné URL adresy níže. Pokud vaše dopravní společnost nabízí několik různých souborů dynamických GTFS dat, vyberte ten, který obsahuje pozici voizdel.<br><br>Vemte prosím na vědomí, že aplikace FindMyBus podporuje pouze verzi 2.0 protokolu GTFS a také se navíc drží nějakých dodatečných předpokladů ohledně obsahu dat. Při testování s různými dopravními společnostmi však nebyly nalezeny žádné problémy.<br><br>FindMyBus je open source a stvořen s ❤️.",
+        "settings": "Počáteční nastavení",
+        "finishButton": "Pojďme na to!"
+    },
+    "settings": {
+        "title": "Nastavení",
+        "gtfsFeed": "GTFS data",
+        "staticGtfsFeedSetting": {
+            "label": "URL statických GTFS dat",
+            "set": "Nastavit URL statických GTFS dat",
+            "refresh": "Obnovit statická GTFS data",
+            "dialog": {
+                "title": "Stahuji a zpracovávám data",
+                "errors": {
+                    "failed": "Načítání statických GTFS dat selhalo. Prosím ujistěte se, že jste zadali správnou URL adresu GTFS dat a že jste připojeni k internetu."
+                }
+            }
+        },
+        "realtimeGtfsFeedSetting": {
+            "label": "URL dynamických GTFS dat",
+            "set": "Nastavit URL dynamických GTFS dat",
+            "dialog": {
+                "title": "Kontroluji data",
+                "errors": {
+                    "failed": "Načítání dynamických GTFS dat selhalo. Prosím ujistěte se, že jste zadali správnou URL adresu GTFS dat a že jste připojeni k internetu."
+                }
+            }
+        },
+        "realtimeGtfsUpdateIntervalSetting": {
+            "label": "Aktualizovat dynamická GTFS data každých {value} sekund."
+        },
+        "visual": "Vzhledové",
+        "languageSettingSetting": {
+            "label": "Jazyk"
+        },
+        "speedUnitsSetting": {
+            "label": "Jednotky rychlosti",
+            "kmph": "kilometry za hodinu",
+            "mph": "míle za hodinu",
+            "mps": "metry za sekundu"
+        },
+        "timeFormatSetting": {
+            "label": "Formát času",
+            "12hour": "12-hodinový formát (01:00 PM)",
+            "24hour": "24-hodinový formát (13:00)"
+        },
+        "darkModeSetting": {
+            "label": "Tmavý režim",
+            "on": "Zapnuto",
+            "off": "Vypnuto",
+            "system": "Dle systému"
+        },
+        "themeSetting": {
+            "label": "Vzhled",
+            "ios": "iPhone",
+            "material": "Android"
+        },
+        "showVehicleMarkerLabelsSetting": {
+            "label": "Zobrazovat text na mapových ukazovatelech voizdel"
+        },
+        "vehicleMarkerBackgroundBrightnessSetting": {
+            "label": "Jas pozadí mapových ukazovatelech vozidel ({value}%)"
+        }
+    }
+}

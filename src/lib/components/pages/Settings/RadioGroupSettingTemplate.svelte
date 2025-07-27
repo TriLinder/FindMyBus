@@ -3,6 +3,8 @@
 </script>
 
 <script lang="ts">
+    import { _ } from "svelte-i18n";
+
     import { BlockTitle, List, ListItem, Radio } from "konsta/svelte";
     import type { Writable } from "svelte/store";
 
@@ -25,7 +27,7 @@
 <BlockTitle>{blockTitle}</BlockTitle>
 <List>
     {#each options as option (option.value)}
-        <ListItem label title={option.label}>
+        <ListItem label title={$_(option.label)}>
             <Radio
                 slot="media"
                 component="div"
