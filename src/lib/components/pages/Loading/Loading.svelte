@@ -22,7 +22,7 @@
         if (!$finishedInteractionsStore.includes('onboarding')) {
             $currentPageStore = 'onboarding';
         } else {
-            $currentPageStore = 'forceStaticGtfsUpdate';
+            $currentPageStore = 'main';
         }
     }
 
