@@ -62,7 +62,8 @@ type TripsFile = {
 type StopTimesFile = {
     trip_id: string;
     arrival_time: string;
-    departure_time: string;
+    departure_time: string | undefined;
+    end_pickup_drop_off_window: string | undefined;
     stop_id: string;
     stop_sequence: number;
 }[];
@@ -100,6 +101,7 @@ export async function fetchStaticGtfs(url: string) {
 
     // get agency name
     const agencyName = (parseUnzipedCsvFile(files['agency.txt']) as AgencyFile)[0].agency_name;
+    if (!agencyName) {throw new Error('Failed to find agency name')};
     console.log(`Agency: ${agencyName}`);
 
     // parse stops
@@ -130,8 +132,8 @@ export async function fetchStaticGtfs(url: string) {
                 latitude: record.stop_lat,
                 longitude: record.stop_lon
             },
-            type: locationTypeMap[record.location_type as keyof typeof locationTypeMap],
-            parentStopId: parentStopId,
+            type: record.location_type ? locationTypeMap[record.location_type as keyof typeof locationTypeMap] : 'stop',
+            parentStopId: parentStopId || null,
             hasChildren: false, // this is actually set in the next loop
         };
     }
@@ -196,10 +198,12 @@ export async function fetchStaticGtfs(url: string) {
     stopTimesFile.sort((a, b) => a.stop_sequence - b.stop_sequence); // sort the individual stops by their sequence
 
     for (const stopTime of stopTimesFile) {
+        if (!stopTime.departure_time && !stopTime.end_pickup_drop_off_window) {continue};
+
         try {
             trips[stopTime.trip_id].stopTimes.push({
                 stopId: stopTime.stop_id,
-                departureTime: stopTime.departure_time
+                departureTime: (stopTime.departure_time || stopTime.end_pickup_drop_off_window) as string // one of them, has to be defined (acoording to the spec and also checked above)
             });
         } catch {}
     }
