@@ -31,6 +31,7 @@ type Settings = {
     theme: 'ios' | 'material';
     showVehicleMarkerLabels: boolean;
     vehicleMarkerBackgroundBrightness: number;
+    mapSourceUrl: string;
 }
 
 type MapPosition = {
@@ -73,7 +74,8 @@ export const settingsStore = objectStore<Settings>({
         darkMode: 'off',
         theme: 'material',
         showVehicleMarkerLabels: true,
-        vehicleMarkerBackgroundBrightness: 1
+        vehicleMarkerBackgroundBrightness: 1,
+        mapSourceUrl: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
     },
     persist: true
 });

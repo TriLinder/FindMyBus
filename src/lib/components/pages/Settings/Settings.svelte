@@ -14,6 +14,7 @@
     import TimeFormatSetting from "./TimeFormatSetting.svelte";
     import ShowVehicleMarkerLabelsSetting from "./ShowVehicleMarkerLabelsSetting.svelte";
     import VehicleMarkerBackgroundBrightnessSetting from "./VehicleMarkerBackgroundBrightnessSetting.svelte";
+    import MapSourceUrlSetting from "./MapSourceUrlSetting.svelte";
 </script>
 
 <style>
@@ -45,6 +46,7 @@
     <TimeFormatSetting/>
     <ShowVehicleMarkerLabelsSetting/>
     <VehicleMarkerBackgroundBrightnessSetting/>
+    <MapSourceUrlSetting/>
 </List>
 
 <BlockTitle medium>{$_('settings.gtfsFeed')}</BlockTitle>

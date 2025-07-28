@@ -102,6 +102,11 @@
         },
         "vehicleMarkerBackgroundBrightnessSetting": {
             "label": "Jas pozadí mapových ukazovatelech vozidel ({value}%)"
+        },
+        "mapSourceUrl": {
+            "label": "URL zdroje map (pouze pro pokročilé uživatele)",
+            "set": "Nastavit vlastní",
+            "reset": "Vrátit výchozí"
         }
     },
     "about": {

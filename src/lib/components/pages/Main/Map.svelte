@@ -197,9 +197,16 @@
 
         map.setView(L.latLng($mapPositionStore.location), $mapPositionStore.zoomLevel);
 
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        let mapSourceAttribution: string;
+        if ($settingsStore.mapSourceUrl.includes('tile.openstreetmap.org/')) {
+            mapSourceAttribution = '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+        } else {
+            mapSourceAttribution = '&copy; Custom map source';
+        }
+
+        L.tileLayer($settingsStore.mapSourceUrl, {
             maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            attribution: mapSourceAttribution
         }).addTo(map);
 
         // Add user's location
