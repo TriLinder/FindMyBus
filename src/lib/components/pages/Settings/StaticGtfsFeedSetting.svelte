@@ -13,6 +13,7 @@
         if (working) {return}; // make sure we're not doing this twice at the same time
         
         working = true;
+        error = '';
 
         try {
             await fetchStaticGtfs(url); // attempt to fetch the feed with the provided URL

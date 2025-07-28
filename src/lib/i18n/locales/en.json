@@ -113,6 +113,9 @@
         "version": "Version: {value}"
     },
     "dependencyAcknowledgments": {
-        "title": "Dependency acknowledgments"
+        "title": "Dependency acknowledgments",
+        "version": "Version: {value}",
+        "license": "License: {value}",
+        "more": "More"
     }
 }

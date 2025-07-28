@@ -108,6 +108,9 @@
         "title": "O aplikaci"
     },
     "dependencyAcknowledgments": {
-        "title": "Použité knihovny"
+        "title": "Použité knihovny",
+        "version": "Verze: {value}",
+        "license": "Licence: {value}",
+        "more": "Více"
     }
 }
