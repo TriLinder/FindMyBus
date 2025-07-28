@@ -36,13 +36,6 @@
     <NavbarBackLink slot="left" text="Back" onClick={function() {$currentPageStore = 'main'}} />
 </Navbar> 
 
-<BlockTitle medium>{$_('settings.gtfsFeed')}</BlockTitle>
-<List strong inset>
-    <StaticGtfsFeedSetting/>
-    <RealtimeGtfsFeedSetting/>
-    <RealtimeGtfsFeedUpdateIntervalSetting/>
-</List>
-
 <BlockTitle medium>{$_('settings.visual')}</BlockTitle>
 <List strong inset>
     <LanguageSetting/>
@@ -52,6 +45,13 @@
     <TimeFormatSetting/>
     <ShowVehicleMarkerLabelsSetting/>
     <VehicleMarkerBackgroundBrightnessSetting/>
+</List>
+
+<BlockTitle medium>{$_('settings.gtfsFeed')}</BlockTitle>
+<List strong inset>
+    <StaticGtfsFeedSetting/>
+    <RealtimeGtfsFeedSetting/>
+    <RealtimeGtfsFeedUpdateIntervalSetting/>
 </List>
 
 <div class="horizontal-center">
