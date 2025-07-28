@@ -44,6 +44,10 @@
         "settings": "Initial set-up",
         "finishButton": "Let's go!"
     },
+    "forceStaticGtfsUpdate": {
+        "title": "Static GTFS data update required",
+        "text": "Unfortunately, the stored version of static GTFS data is outdated and must be refreshed. This is likely due to an app update requiring a different format of data than stored.<br><br>Please continue by pressing the refresh button below. Please note that this will likely use more bandwidth than the app does usually."
+    },
     "settings": {
         "title": "Settings",
         "gtfsFeed": "GTFS Feed",

@@ -11,11 +11,12 @@
     import Loading from "$lib/components/pages/Loading/Loading.svelte";
     import Main from "$lib/components/pages/Main/Main.svelte";
     import Onboarding from "$lib/components/pages/Onboarding/Onboarding.svelte";
+    import ForceStaticGtfsUpdate from "$lib/components/pages/ForceStaticGtfsUpdate/ForceStaticGtfsUpdate.svelte";
     import Settings from "$lib/components/pages/Settings/Settings.svelte";
     import About from "$lib/components/pages/About/About.svelte";
     import DependencyAcknowledgments from "$lib/components/pages/DependencyAcknowledgments/DependencyAcknowledgments.svelte";
 
-    const introductoryPages: (typeof $currentPageStore)[] = ['loading', 'onboarding', 'main'];
+    const introductoryPages: (typeof $currentPageStore)[] = ['loading', 'onboarding', 'forceStaticGtfsUpdate', 'main'];
 
     const systemPrefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
     $: useDarkMode = ($settingsStore.darkMode === 'on') || ($settingsStore.darkMode === 'system' && systemPrefersDarkMode);
@@ -61,6 +62,8 @@
                     <Main/>
                 {:else if $currentPageStore === 'onboarding'}
                     <Onboarding/>
+                {:else if $currentPageStore === 'forceStaticGtfsUpdate'}
+                    <ForceStaticGtfsUpdate/>
                 {:else if $currentPageStore === 'settings'}
                     <Settings/>
                 {:else if $currentPageStore === 'about'}

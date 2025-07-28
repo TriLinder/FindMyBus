@@ -39,7 +39,7 @@ type MapPosition = {
     zoomLevel: number
 }
 
-type Page = 'loading' | 'main' | 'onboarding' | 'settings' | 'about' | 'dependencyAcknowledgments';
+type Page = 'loading' | 'main' | 'onboarding' | 'forceStaticGtfsUpdate' | 'settings' | 'about' | 'dependencyAcknowledgments';
 
 export const staticGtfsDataStore = objectStore<StaticGtfsData>({
     storeName: "com.jakubhlavacek.gtfsrealtimemap.staticGtfsData",
