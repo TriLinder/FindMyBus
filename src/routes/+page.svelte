@@ -18,6 +18,12 @@
     $: theme = $settingsStore.theme;
 </script>
 
+<style>
+    .ios-lightmode {
+        color: black;
+    }
+</style>
+
 <svelte:head>
     <title>FindMyBus</title>
     <link rel="icon" href={iconUrl} />
@@ -28,21 +34,23 @@
 {/if}
 
 {#key [useDarkMode, theme]}
-    <App {theme} safeAreas dark={useDarkMode}>
-        <Page>
-            {#if $currentPageStore === 'main'}
-                <Main/>
-            {:else if $currentPageStore === 'onboarding'}
-                <Onboarding/>
-            {:else if $currentPageStore === 'settings'}
-                <Settings/>
-            {:else if $currentPageStore === 'about'}
-                <About/>
-            {:else if $currentPageStore === 'dependencyAcknowledgments'}
-                <DependencyAcknowledgments/>
-            {:else}
-                <p style="color: red;">Unknown page! {$currentPageStore}</p>
-            {/if}
-        </Page>
-    </App>
+    <div class:ios-lightmode={!useDarkMode && theme === 'ios'}>
+        <App {theme} safeAreas dark={useDarkMode}>
+            <Page>
+                {#if $currentPageStore === 'main'}
+                    <Main/>
+                {:else if $currentPageStore === 'onboarding'}
+                    <Onboarding/>
+                {:else if $currentPageStore === 'settings'}
+                    <Settings/>
+                {:else if $currentPageStore === 'about'}
+                    <About/>
+                {:else if $currentPageStore === 'dependencyAcknowledgments'}
+                    <DependencyAcknowledgments/>
+                {:else}
+                    <p style="color: red;">Unknown page! {$currentPageStore}</p>
+                {/if}
+            </Page>
+        </App>
+    </div>
 {/key}
