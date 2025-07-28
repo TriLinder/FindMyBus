@@ -24,7 +24,11 @@
         } catch(exception) {
             // Oh oh, something failed - this shows the error dialog
             console.error(exception);
-            error = JSON.stringify(exception);
+
+            try {
+                // @ts-ignore
+                error = JSON.stringify(exception.message || exception.toString());
+            } catch {error = $_('generic.error')}
         }
     }
 </script>
