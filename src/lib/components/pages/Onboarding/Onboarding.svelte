@@ -71,9 +71,13 @@
 </script>
 
 <style>
+    .content {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+
     h1 {
         color: black;
-        margin-top: 15px;
         text-align: center;
         font-size: 32px;
         font-weight: bold;
@@ -96,7 +100,7 @@
     }
 </style>
 
-<div class:no-interaction={playingFinishAnimation}>
+<div class="content" class:no-interaction={playingFinishAnimation}>
     <h1>{$_('onboarding.title')}</h1>
 
     <Block strong inset>
