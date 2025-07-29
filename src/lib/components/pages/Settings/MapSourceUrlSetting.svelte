@@ -23,7 +23,7 @@
 <ListInput 
     label={$_('settings.mapSourceUrl.label')} 
     placeholder="https://tile.openstreetmap.org/..." 
-    type="text"
+    type="url"
     value={url}
     onInput={function(e) {url = e.target.value.replaceAll(' ', '')}}
 />

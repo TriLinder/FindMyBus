@@ -44,7 +44,7 @@
     }
 </style>
 
-<ListInput label={$_('settings.realtimeGtfsFeedSetting.label')} placeholder="https://gtfs.example.com/..." type="text" value={url} onInput={function(e) {url = e.target.value.replaceAll(' ', '')}}/>
+<ListInput label={$_('settings.realtimeGtfsFeedSetting.label')} placeholder="https://gtfs.example.com/..." type="url" value={url} onInput={function(e) {url = e.target.value.replaceAll(' ', '')}}/>
 
 <div class="center">
     <div class="button">
