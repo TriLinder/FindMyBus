@@ -210,7 +210,7 @@
         }).addTo(map);
 
         // Add user's location
-        new LocateControl({keepCurrentZoomLevel: true, showPopup: false, locateOptions: {watch: true}}).addTo(map).start();
+        new LocateControl({keepCurrentZoomLevel: true, showPopup: false, locateOptions: {watch: true}, onLocationError: function() {}}).addTo(map).start();
 
         // Event handlers
         realtimeGtfsDataStore.subscribe(function(value) {updateMarkers()});
