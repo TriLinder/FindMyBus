@@ -73,12 +73,16 @@
     function drawVehicles() {
         const bounds = map.getBounds();
         const boundsWithPadding = bounds.pad(0); // padded by 50%
+        const zoomLevel = map.getZoom();
 
         const currentlyDrawnVehiclesIds: string[] = [];
 
         for (const vehicle of $realtimeGtfsDataStore.vehicles) {
             // If the vehicle doesn't have a position attached, there's no point in drawing it
             if (!vehicle.position) {continue};
+
+            // If we're not zoomed-in enough, don't show any vehicles
+            if (zoomLevel < 14) {continue};
 
             // If the vehicle is really out of bounds, don't draw it either
             // (though the popup closing isn't great, that's why the bounds are padded)
@@ -166,7 +170,7 @@
         // Remove any existing markers and all them back in
         // This is done after zooming and GTFS realtime
         // updates to update the map.
-        console.log('Upadting vehicle map markers.');
+        console.log(`Upadting vehicle map markers. Zoom level: ${map.getZoom()}`);
         drawStops();
         drawVehicles();
     }
