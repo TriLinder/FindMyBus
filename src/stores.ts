@@ -1,5 +1,9 @@
 import { writable } from 'svelte/store';
 import { objectStore, arrayStore } from 'svelte-capacitor-store';
+
+import { Capacitor } from '@capacitor/core';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+
 import L from "leaflet";
 
 import type { Stop, Route, Trip, Vehicle } from "$lib/gtfs/types";
@@ -42,17 +46,14 @@ type MapPosition = {
 
 type Page = 'loading' | 'main' | 'onboarding' | 'forceStaticGtfsUpdate' | 'settings' | 'about' | 'dependencyAcknowledgments';
 
-export const staticGtfsDataStore = objectStore<StaticGtfsData>({
-    storeName: "com.jakubhlavacek.gtfsrealtimemap.staticGtfsData",
-    initialValue: {
-        dataTypeVersion: 0,
-        timestamp: new Date().toString(),
-        agencyName: "None",
-        stops: {},
-        routes: {},
-        trips: {}
-    },
-    persist: true
+// data gets loaded into here from storage in the loadStaticGtfsStoreData() function
+export const staticGtfsDataStore = writable<StaticGtfsData>({
+    dataTypeVersion: 0,
+    timestamp: new Date().toString(),
+    agencyName: "None",
+    stops: {},
+    routes: {},
+    trips: {}
 });
 
 export const realtimeGtfsDataStore = writable<RealtimeGtfsData>({
@@ -97,3 +98,43 @@ export const finishedInteractionsStore = arrayStore<('onboarding')[]>({
 });
 
 export const currentPageStore = writable<Page>('loading');
+
+export async function loadStaticGtfsStoreData() {
+    const platform = Capacitor.getPlatform();
+
+    try {
+        if (platform === 'android') {
+            const loadedFile = await Filesystem.readFile({
+                directory: Directory.Data,
+                path: 'staticGtfsStore.json',
+                encoding: Encoding.UTF16
+            });
+
+            staticGtfsDataStore.set(JSON.parse(loadedFile.data as string) as StaticGtfsData);
+        } else if (platform === 'web') {
+            const localStorageValue = localStorage.getItem('com.jakubhlavacek.gtfsrealtimemap.staticGtfsStore');
+            if (!localStorageValue) {throw Error('Static GTFS store key not found in localstorage')};
+
+            staticGtfsDataStore.set(JSON.parse(localStorageValue) as StaticGtfsData);
+        }
+    } catch {
+        console.warn('Failed to load static GTFS data from storage')
+    }
+}
+
+async function saveStaticGtfsStoreData(value: StaticGtfsData) {
+    const platform = Capacitor.getPlatform();
+
+    if (platform === 'android') {
+        await Filesystem.writeFile({
+            directory: Directory.Data,
+            path: 'staticGtfsStore.json',
+            encoding: Encoding.UTF16,
+            data: JSON.stringify(value)
+        });
+    } else if (platform === 'web') {
+        localStorage.setItem('com.jakubhlavacek.gtfsrealtimemap.staticGtfsStore', JSON.stringify(value));
+    }
+}
+
+staticGtfsDataStore.subscribe(saveStaticGtfsStoreData);
