@@ -10,6 +10,11 @@
     "license": "MIT"
   },
   {
+    "name": "@capacitor/assets",
+    "version": "3.0.5",
+    "license": "MIT"
+  },
+  {
     "name": "@capacitor/cli",
     "version": "7.2.0",
     "license": "MIT"
@@ -20,13 +25,18 @@
     "license": "MIT"
   },
   {
+    "name": "@capacitor/preferences",
+    "version": "7.0.1",
+    "license": "MIT"
+  },
+  {
     "name": "@fontsource/roboto",
     "version": "5.2.6",
     "license": "OFL-1.1"
   },
   {
-    "name": "@sveltejs/adapter-auto",
-    "version": "6.0.1",
+    "name": "@sveltejs/adapter-static",
+    "version": "3.0.8",
     "license": "MIT"
   },
   {
