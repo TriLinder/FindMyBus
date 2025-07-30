@@ -31,6 +31,7 @@
                 "trolleybus": "Trolejbus",
                 "monorail": "Monorail"
             },
+            "openStopTimesDialog": "Jízdní řád",
             "errors": {
                 "noPosition": "Pro toto vozidlo nebyly nalezeny polohové informace.",
                 "unknownTrip": "Neznámý spoj. Zvažte obnovení statických GTFS dat?",

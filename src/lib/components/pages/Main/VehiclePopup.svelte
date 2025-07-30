@@ -4,6 +4,7 @@
     import { parseStopTimeStringToLocalTimezoneToday, speedInUsersPreferredUnitsString } from "$lib/utils";
     import type { Vehicle, Stop, Trip, Route } from "$lib/gtfs/types";
 
+    import { Button } from "konsta/svelte";
     import Icon from "svelte-awesome";
     import type { IconData } from "svelte-awesome/components/Icon.svelte";
     import mapPin from 'svelte-awesome/icons/mapPin';
@@ -119,6 +120,10 @@
         align-items: center;
         gap: 5px;
     }
+
+    .stop-times-button-container {
+        margin-top: 15px;
+    }
 </style>
 
 {#if !errorMessage}
@@ -157,6 +162,12 @@
         {#if speedString}
             <div class="row">
                 <Icon data={dashboard} style="width: 15px;"/> {speedString}
+            </div>
+        {/if}
+
+        {#if trip.stopTimes.length > 0}
+            <div class="stop-times-button-container">
+                <Button small id="open-stop-times-dialog-button">{$_('map.vehiclePopup.openStopTimesDialog')}</Button>
             </div>
         {/if}
     </div>

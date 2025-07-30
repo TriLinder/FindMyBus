@@ -13,6 +13,7 @@
     import type { Stop, Vehicle } from '$lib/gtfs/types';
 
     import VehiclePopup from './VehiclePopup.svelte';
+    import StopTimesDialog from './StopTimesDialog.svelte';
 
     let map: L.Map;
 
@@ -21,6 +22,7 @@
     const vehicleMarkers: Record<string, L.Marker> = {};
 
     let selectedVehicle: Vehicle;
+    let stopTimesDialogOpen = false;
 
     const stopIcon = L.icon({
         iconUrl: stopIconUrl,
@@ -192,7 +194,13 @@
         const templateElement = document.getElementById('vehicle-popup-template') as HTMLElement;
         if (!popupElement || !templateElement) {console.warn("Failed to find vehicle popup")};
 
+        // Replace the HTML
         popupElement.outerHTML = templateElement.outerHTML;
+
+        // Add an event listener to the button for opening stop times dialog
+        const buttonElement = document.getElementById('open-stop-times-dialog-button') as HTMLButtonElement;
+        buttonElement.onclick = function() {stopTimesDialogOpen = true};
+
     }
 
     onMount(function() {
@@ -259,6 +267,8 @@
 </style>
 
 <div id="map"></div>
+
+<StopTimesDialog vehicle={selectedVehicle} opened={stopTimesDialogOpen}/>
 
 <!-- This is where the popup content gets pulled from when clicking on a vehicle -->
 <div style="display: none;">

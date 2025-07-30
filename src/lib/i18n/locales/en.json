@@ -31,6 +31,7 @@
                 "trolleybus": "Trolleybus",
                 "monorail": "Monorail"
             },
+            "openStopTimesDialog": "Timetable",
             "errors": {
                 "noPosition": "No position information for this vehicle.",
                 "unknownTrip": "Unknown trip. Consider refreshing static GTFS data?",
