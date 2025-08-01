@@ -264,11 +264,23 @@
         font-family: sans-serif;
         font-weight: bold;
     }
+
+    .stop-times-dialog {
+        z-index: 10;
+    }
+
+    #map {
+        z-index: 1;
+    }
 </style>
 
 <div id="map"></div>
 
-<StopTimesDialog vehicle={selectedVehicle} opened={stopTimesDialogOpen}/>
+<div class="stop-times-dialog">
+    {#key selectedVehicle}
+        <StopTimesDialog vehicle={selectedVehicle} opened={stopTimesDialogOpen}/>
+    {/key}
+</div>
 
 <!-- This is where the popup content gets pulled from when clicking on a vehicle -->
 <div style="display: none;">
