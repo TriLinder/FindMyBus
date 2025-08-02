@@ -7,6 +7,7 @@
 
     export let opened = false;
     export let vehicle: Vehicle;
+    export let onStopClick: ((arg: Stop) => any) | null = null;
 
     let trip: Trip;
 
@@ -14,12 +15,15 @@
         // the fact that the stop exists is asserted by the button being
         // pressed existing in the first place
         const stop = $staticGtfsDataStore.stops[stopId];
+
+        if (!onStopClick) {return};
+        onStopClick(stop);
     }
 
     onMount(function() {
         // Get the vehicle's trip
         if (!vehicle.tripId || !Object.keys($staticGtfsDataStore.trips).includes(vehicle.tripId)) {return;}
-        trip = $staticGtfsDataStore.trips[vehicle.tripId];
+        trip = $staticGtfsDataStore.trips[vehicle.tripId];;
     });
 </script>
 

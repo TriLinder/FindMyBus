@@ -6,11 +6,11 @@
     import { _ } from 'svelte-i18n';
     import L from "leaflet";
     import { LocateControl } from "leaflet.locatecontrol";
-    import { onMount, onDestroy } from "svelte";
+    import { onMount } from "svelte";
 
     import { staticGtfsDataStore, realtimeGtfsDataStore, mapPositionStore, settingsStore } from '../../../../stores';
     import { adjustHexColorBrightness } from '$lib/utils';
-    import type { Stop, Vehicle } from '$lib/gtfs/types';
+    import type { Stop, Vehicle, Location } from '$lib/gtfs/types';
 
     import VehiclePopup from './VehiclePopup.svelte';
     import StopTimesDialog from './StopTimesDialog.svelte';
@@ -20,6 +20,8 @@
     let stopsLastDrawn: Stop[] = [];
     const stopMarkers: Record<string, L.Marker> = {};
     const vehicleMarkers: Record<string, L.Marker> = {};
+
+    let higlightMarker: L.CircleMarker | undefined = undefined;
 
     let selectedVehicle: Vehicle;
     let stopTimesDialogOpen = false;
@@ -170,11 +172,27 @@
 
     function updateMarkers() {
         // Remove any existing markers and all them back in
-        // This is done after zooming and GTFS realtime
+        // This is done after zooming, moving the map, and GTFS realtime
         // updates to update the map.
         console.log(`Upadting vehicle map markers. Zoom level: ${map.getZoom()}`);
         drawStops();
         drawVehicles();
+    }
+
+    function higlightLocation(location: Location) {
+        // If the higlight marker doesn't exist yet, create it
+        if (!higlightMarker) {
+            higlightMarker = L.circleMarker([0, 0], {radius: 25, opacity: 0.75, color: 'lightgreen'}).addTo(map);
+        }
+
+        // Now move the marker (and the map) to the correct location
+        higlightMarker.setLatLng([location.latitude, location.longitude]);
+        map.setView([location.latitude, location.longitude]);
+
+        // Zoom the user in at least a little bit if they aren't zoomed-in yet
+        if (map.getZoom() < 13) {
+            map.setZoom(13);
+        }
     }
 
     function onMapInteraction() {
@@ -192,13 +210,14 @@
     function replaceVehiclePopup() {
         const popupElement = document.getElementById('vehicle-popup') as HTMLDivElement;
         const templateElement = document.getElementById('vehicle-popup-template') as HTMLElement;
-        if (!popupElement || !templateElement) {console.warn("Failed to find vehicle popup")};
+        if (!popupElement || !templateElement) {console.warn("Failed to find vehicle popup"); return};
 
         // Replace the HTML
         popupElement.outerHTML = templateElement.outerHTML;
 
         // Add an event listener to the button for opening stop times dialog
         const buttonElement = document.getElementById('open-stop-times-dialog-button') as HTMLButtonElement;
+        if (!buttonElement) {console.warn("Failed to find vehicle popup button")};
         buttonElement.onclick = function() {stopTimesDialogOpen = true};
 
     }
@@ -277,9 +296,11 @@
 <div id="map"></div>
 
 <div class="stop-times-dialog">
-    {#key selectedVehicle}
-        <StopTimesDialog vehicle={selectedVehicle} opened={stopTimesDialogOpen}/>
-    {/key}
+    {#if selectedVehicle}
+        {#key selectedVehicle}
+            <StopTimesDialog vehicle={selectedVehicle} opened={stopTimesDialogOpen} onStopClick={function(stop) {higlightLocation(stop.location)}}/>
+        {/key}
+    {/if}
 </div>
 
 <!-- This is where the popup content gets pulled from when clicking on a vehicle -->
