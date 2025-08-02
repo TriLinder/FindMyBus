@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { _ } from "svelte-i18n";
     import { onMount } from "svelte";
     import { staticGtfsDataStore } from "../../../../stores";
     import type { Vehicle, Trip, Stop } from "$lib/gtfs/types";
@@ -45,7 +46,7 @@
                 <Table>
                     <TableHead>
                         <TableRow header>
-                            <TableCell header>Stop</TableCell> <TableCell header>Departure time</TableCell>
+                            <TableCell header>{$_('map.stopTimesDialog.stop')}</TableCell> <TableCell header>{$_('map.stopTimesDialog.departureTime')}</TableCell>
                         </TableRow>
                     </TableHead>
 
@@ -58,7 +59,7 @@
                                             {$staticGtfsDataStore.stops[stopTime.stopId].name}
                                         </button>
                                     {:else}
-                                        Unknown stop
+                                        {$_('map.stopTimesDialog.unknownStop')}
                                     {/if}
                                 </TableCell>
                                 <TableCell>{stopTime.departureTime}</TableCell>
@@ -68,7 +69,7 @@
                 </Table>
             </div>
         {:else}
-            Failed to load timetable.
+            {$_('map.stopTimesDialog.errors.failedToLoad')}
         {/if}
     </Dialog>
 </div>

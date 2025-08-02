@@ -167,7 +167,7 @@
 
         {#if trip.stopTimes.length > 0}
             <div class="stop-times-button-container">
-                <Button small id="open-stop-times-dialog-button">{$_('map.vehiclePopup.openStopTimesDialog')}</Button>
+                <Button small id="open-stop-times-dialog-button">{$_('map.stopTimesDialog.title')}</Button>
             </div>
         {/if}
     </div>
