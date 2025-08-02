@@ -1,6 +1,7 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
     import { onMount } from "svelte";
+    import { parseStopTimeStringToLocalTimezoneToday } from "$lib/utils";
     import { staticGtfsDataStore } from "../../../../stores";
     import type { Vehicle, Trip, Stop } from "$lib/gtfs/types";
     
@@ -37,6 +38,10 @@
     .stop-name-button {
         width: 120px;
     }
+
+    .past-stop-name {
+        color: gray;
+    }
 </style>
 
 <div class="dialog-container">
@@ -55,8 +60,11 @@
                             <TableRow>
                                 <TableCell>
                                     {#if Object.keys($staticGtfsDataStore.stops).includes(stopTime.stopId)}
-                                        <button class="stop-name-button" on:click={function() {onStopNameButtonClick(stopTime.stopId)}}>
-                                            {$staticGtfsDataStore.stops[stopTime.stopId].name}
+                                        <button 
+                                            class="stop-name-button"
+                                            on:click={function() {onStopNameButtonClick(stopTime.stopId)}}
+                                            class:past-stop-name={Date.now() > parseStopTimeStringToLocalTimezoneToday(stopTime.departureTime).getTime()}>
+                                                {$staticGtfsDataStore.stops[stopTime.stopId].name}
                                         </button>
                                     {:else}
                                         {$_('map.stopTimesDialog.unknownStop')}
