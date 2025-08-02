@@ -22,6 +22,25 @@ export function parseStopTimeStringToLocalTimezoneToday(timeString: string): Dat
     ).getTime() + extraDays * 24 * 60 * 60 * 1000);
 }
 
+export function dateToTimeString(date: Date): string {
+    const usersPreferredFormat = get(settingsStore).timeFormat;
+
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    if (usersPreferredFormat === '12hour') {
+        const hours12 = date.getHours() % 12 || 12;
+        const amPm = date.getHours() >= 12 ? 'PM' : 'AM';
+        const time12 = `${hours12}:${minutes} ${amPm}`;
+
+        return time12;
+    } else {
+        const hours24 = String(date.getHours()).padStart(2, '0');
+        const time24 = `${hours24}:${minutes}`;
+
+        return time24;
+    }
+}
+
 export function speedInUsersPreferredUnitsString(speedInMetersPerSecond: number): string {
     switch(get(settingsStore).speedUnits) {
         case('kmph'): return `${Math.round(speedInMetersPerSecond * 3.6)} km/h`;

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
     import { onMount } from "svelte";
-    import { parseStopTimeStringToLocalTimezoneToday } from "$lib/utils";
+    import { parseStopTimeStringToLocalTimezoneToday, dateToTimeString } from "$lib/utils";
     import { staticGtfsDataStore } from "../../../../stores";
     import type { Vehicle, Trip, Stop } from "$lib/gtfs/types";
     
@@ -70,7 +70,7 @@
                                         {$_('map.stopTimesDialog.unknownStop')}
                                     {/if}
                                 </TableCell>
-                                <TableCell>{stopTime.departureTime}</TableCell>
+                                <TableCell>{dateToTimeString(parseStopTimeStringToLocalTimezoneToday(stopTime.departureTime))}</TableCell>
                             </TableRow>
                         {/each}
                     </TableBody>
