@@ -118,7 +118,7 @@
                             label = route.name.short;
                         }
                     }
-            }
+                }
 
                 
                 // Adjust the background color brightness
