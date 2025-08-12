@@ -1,8 +1,7 @@
 import { writable } from 'svelte/store';
 import { objectStore, arrayStore } from 'svelte-capacitor-store';
 
-import { Capacitor } from '@capacitor/core';
-import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { saveData, loadData } from '$lib/file-storage';
 
 import L from "leaflet";
 
@@ -47,6 +46,7 @@ type MapPosition = {
 type Page = 'loading' | 'main' | 'onboarding' | 'forceStaticGtfsUpdate' | 'settings' | 'about' | 'dependencyAcknowledgments';
 
 // data gets loaded into here from storage in the loadStaticGtfsStoreData() function
+let staticGtfsDataStoreLoaded = false;
 export const staticGtfsDataStore = writable<StaticGtfsData>({
     dataTypeVersion: 0,
     timestamp: new Date().toString(),
@@ -99,42 +99,24 @@ export const finishedInteractionsStore = arrayStore<('onboarding')[]>({
 
 export const currentPageStore = writable<Page>('loading');
 
+// this gets called from the Loading page on first load
 export async function loadStaticGtfsStoreData() {
-    const platform = Capacitor.getPlatform();
-
     try {
-        if (platform === 'android') {
-            const loadedFile = await Filesystem.readFile({
-                directory: Directory.Data,
-                path: 'staticGtfsStore.json',
-                encoding: Encoding.UTF16
-            });
-
-            staticGtfsDataStore.set(JSON.parse(loadedFile.data as string) as StaticGtfsData);
-        } else if (platform === 'web') {
-            const localStorageValue = localStorage.getItem('com.jakubhlavacek.gtfsrealtimemap.staticGtfsStore');
-            if (!localStorageValue) {throw Error('Static GTFS store key not found in localstorage')};
-
-            staticGtfsDataStore.set(JSON.parse(localStorageValue) as StaticGtfsData);
-        }
+        staticGtfsDataStore.set(JSON.parse(await loadData('com.jakubhlavacek.staticGtfsStore')) as StaticGtfsData);
     } catch {
-        console.warn('Failed to load static GTFS data from storage')
+        console.warn('Failed to load static GTFS data from storage');
     }
+
+    staticGtfsDataStoreLoaded = true;
 }
 
 async function saveStaticGtfsStoreData(value: StaticGtfsData) {
-    const platform = Capacitor.getPlatform();
+    // if we haven't finished loading the data in yet, don't save it
+    if (!staticGtfsDataStoreLoaded) {return};
 
-    if (platform === 'android') {
-        await Filesystem.writeFile({
-            directory: Directory.Data,
-            path: 'staticGtfsStore.json',
-            encoding: Encoding.UTF16,
-            data: JSON.stringify(value)
-        });
-    } else if (platform === 'web') {
-        localStorage.setItem('com.jakubhlavacek.gtfsrealtimemap.staticGtfsStore', JSON.stringify(value));
-    }
+    // save the data
+    const data = JSON.stringify(value);
+    await saveData('com.jakubhlavacek.staticGtfsStore', data);
 }
 
 staticGtfsDataStore.subscribe(saveStaticGtfsStoreData);

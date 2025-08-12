@@ -192,7 +192,6 @@ export async function fetchStaticGtfs(url: string) {
     }
 
     // parse stop times (per trip)
-    /*
     const stopTimesFile = parseUnzipedCsvFile(files['stop_times.txt']) as StopTimesFile;
     console.log(`Individual stop time records: ${stopTimesFile.length}`);
 
@@ -208,7 +207,6 @@ export async function fetchStaticGtfs(url: string) {
             });
         } catch {}
     }
-    */
 
     // save the parsed info
     staticGtfsDataStore.set({

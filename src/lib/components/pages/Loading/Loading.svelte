@@ -9,9 +9,9 @@
     async function load() {
         // Wait for the persistent stores
         // to initialize
-        await loadStaticGtfsStoreData();
         await settingsStore.init();
         if ($settingsStore.realtimeGtfsUrl) {fetchRealtimeGtfs($settingsStore.realtimeGtfsUrl)}; // begin fetching the realtime feed while we wait here
+        await loadStaticGtfsStoreData();
         await mapPositionStore.init();
         await finishedInteractionsStore.init();
 
