@@ -27,7 +27,7 @@
     $: theme = $settingsStore.theme;
     // the safe area padding color should match the Navbar colors on each page
     // and we pick them based on the theme and dark mode
-    $: safeAreaPaddingColor = {'material-false': 'red', 'material-true': '#272931', 'ios-false': '#f6f6f7', 'ios-true': '#0e0e0e'}[`${theme}-${useDarkMode}`];
+    $: safeAreaPaddingColor = {'material-false': '#eaeefa', 'material-true': '#272931', 'ios-false': '#f6f6f7', 'ios-true': '#0e0e0e'}[`${theme}-${useDarkMode}`];
 
     function goBack() {
         // The page history system in this app is incredibly simple (at least for now).
