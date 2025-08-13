@@ -32,6 +32,7 @@
                 "monorail": "Monorail"
             },
             "errors": {
+                "timeout": "Failed to load popup content in time.",
                 "noPosition": "No position information for this vehicle.",
                 "unknownTrip": "Unknown trip. Consider refreshing static GTFS data?",
                 "unknownRoute": "No trip information. Consider refreshing static GTFS data?"

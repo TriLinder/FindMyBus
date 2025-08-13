@@ -32,6 +32,7 @@
                 "monorail": "Monorail"
             },
             "errors": {
+                "timeout": "Nepodařilo se vygenerovat obsah popupu dostatečně rychle.",
                 "noPosition": "Pro toto vozidlo nebyly nalezeny polohové informace.",
                 "unknownTrip": "Neznámý spoj. Zvažte obnovení statických GTFS dat?",
                 "unknownRoute": "Neznámá trasa. Zvažte obnovení statických GTFS dat?"

@@ -1,8 +1,10 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
+    import { onMount } from "svelte";
     import { staticGtfsDataStore } from "../../../../stores";
     import { parseStopTimeStringToLocalTimezoneToday, speedInUsersPreferredUnitsString } from "$lib/utils";
-    import type { Vehicle, Stop, Trip, Route } from "$lib/gtfs/types";
+    import { getStopTimesForTrip } from "$lib/gtfs/get";
+    import type { Vehicle, Stop, Trip, Route, StopTimes } from "$lib/gtfs/types";
 
     import { Button } from "konsta/svelte";
     import Icon from "svelte-awesome";
@@ -21,6 +23,7 @@
 
     let trip: Trip;
     let route: Route;
+    let stopTimes: StopTimes;
 
     let tripLabel: string;
     let genericColor: string;
@@ -32,9 +35,10 @@
     let speedString: string | null = null;
     let routeType: {icon: Record<string, IconData>, label: string} | null = null;
 
-    let errorMessage: string | undefined = undefined;
+    let finishedLoading = false;
+    let errorMessage: string | undefined = $_('map.vehiclePopup.errors.timeout');
 
-    function load() {
+    async function load() {
         // We assume we have the vehicle's position information,
         // otherwise there's not even any way for the popup to be
         // displayed in the first place.
@@ -48,9 +52,12 @@
         if (!Object.keys($staticGtfsDataStore.routes).includes(trip.routeId)) {return $_('map.vehiclePopup.errors.unknownRoute')};
         route = $staticGtfsDataStore.routes[trip.routeId];
 
+        // Finally, load stop times for the trip from the data storage
+        stopTimes = await getStopTimesForTrip(trip.id);
+
         // The best way to identify the trip is by its headsign, though
         // otherwise the users probably expects to see its terminus stop.
-        terminusStop = $staticGtfsDataStore.stops[trip.stopTimes.at(-1)?.stopId!] || null;
+        terminusStop = $staticGtfsDataStore.stops[stopTimes.at(-1)?.stopId!] || null;
 
         if (trip.headsign) {tripLabel = trip.headsign}
             else if (terminusStop) {tripLabel = terminusStop.name}
@@ -64,7 +71,7 @@
         currentStop = $staticGtfsDataStore.stops[vehicle.currentStopId!] || null;
 
         // Get the upcoming stop, based on the timetable (the first one with its departure time in the future)
-        for (const stopTime of trip.stopTimes) {
+        for (const stopTime of stopTimes) {
             const time = parseStopTimeStringToLocalTimezoneToday(stopTime.departureTime);
             if (time > new Date()) {
                 upcomingStop = $staticGtfsDataStore.stops[stopTime.stopId] || null;
@@ -93,7 +100,9 @@
         }
     }
 
-    errorMessage = load();
+    onMount(async function() {
+        errorMessage = await load();
+    });
 </script>
 
 <style>
@@ -165,7 +174,7 @@
             </div>
         {/if}
 
-        {#if trip.stopTimes.length > 0}
+        {#if stopTimes && stopTimes.length > 0}
             <div class="stop-times-button-container">
                 <Button small id="open-stop-times-dialog-button">{$_('map.stopTimesDialog.title')}</Button>
             </div>
