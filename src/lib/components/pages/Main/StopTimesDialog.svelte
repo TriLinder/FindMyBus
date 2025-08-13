@@ -49,7 +49,7 @@
 </style>
 
 <div class="dialog-container">
-    <Dialog opened={$opened} onBackdropClick={function() {$opened = false}}>
+    <Dialog opened={$opened} onBackdropClick={function() {$opened = false}} style="width: 350px">
         {#if vehicle && stopTimes}
             <div class="table-container">
                 <Table>
