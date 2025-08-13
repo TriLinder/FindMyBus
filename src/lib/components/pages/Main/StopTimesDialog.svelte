@@ -3,7 +3,8 @@
     import { onMount } from "svelte";
     import { parseStopTimeStringToLocalTimezoneToday, dateToTimeString } from "$lib/utils";
     import { staticGtfsDataStore } from "../../../../stores";
-    import type { Vehicle, Trip, Stop } from "$lib/gtfs/types";
+    import { getStopTimesForTrip } from "$lib/gtfs/get";
+    import type { Vehicle, Trip, Stop, StopTimes } from "$lib/gtfs/types";
     
     import { Dialog, Table, TableHead, TableBody, TableRow, TableCell } from "konsta/svelte";
 
@@ -11,7 +12,7 @@
     export let vehicle: Vehicle;
     export let onStopClick: ((arg: Stop) => any) | null = null;
 
-    let trip: Trip;
+    let stopTimes: StopTimes;
 
     function onStopNameButtonClick(stopId: string) {
         // the fact that the stop exists is asserted by the button being
@@ -22,10 +23,10 @@
         onStopClick(stop);
     }
 
-    onMount(function() {
-        // Get the vehicle's trip
-        if (!vehicle.tripId || !Object.keys($staticGtfsDataStore.trips).includes(vehicle.tripId)) {return;}
-        trip = $staticGtfsDataStore.trips[vehicle.tripId];;
+    onMount(async function() {
+        // Get the trip's stop times
+        if (!vehicle.tripId) {return};
+        stopTimes = await getStopTimesForTrip(vehicle.tripId);
     });
 </script>
 
@@ -46,7 +47,7 @@
 
 <div class="dialog-container">
     <Dialog {opened} onBackdropClick={function() {opened = false}}>
-        {#if vehicle && trip}
+        {#if vehicle && stopTimes}
             <div class="table-container">
                 <Table>
                     <TableHead>
@@ -56,7 +57,7 @@
                     </TableHead>
 
                     <TableBody>
-                        {#each trip.stopTimes as stopTime}
+                        {#each stopTimes as stopTime}
                             <TableRow>
                                 <TableCell>
                                     {#if Object.keys($staticGtfsDataStore.stops).includes(stopTime.stopId)}
