@@ -1,14 +1,17 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
     import { onMount } from "svelte";
+    
     import { parseStopTimeStringToLocalTimezoneToday, dateToTimeString } from "$lib/utils";
     import { staticGtfsDataStore } from "../../../../stores";
     import { getStopTimesForTrip } from "$lib/gtfs/get";
+    
+    import type { Writable } from "svelte/store";
     import type { Vehicle, Trip, Stop, StopTimes } from "$lib/gtfs/types";
     
     import { Dialog, Table, TableHead, TableBody, TableRow, TableCell } from "konsta/svelte";
 
-    export let opened = false;
+    export let opened: Writable<boolean>;
     export let vehicle: Vehicle;
     export let onStopClick: ((arg: Stop) => any) | null = null;
 
@@ -46,7 +49,7 @@
 </style>
 
 <div class="dialog-container">
-    <Dialog {opened} onBackdropClick={function() {opened = false}}>
+    <Dialog opened={$opened} onBackdropClick={function() {$opened = false}}>
         {#if vehicle && stopTimes}
             <div class="table-container">
                 <Table>

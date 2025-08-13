@@ -7,6 +7,7 @@
     import L from "leaflet";
     import { LocateControl } from "leaflet.locatecontrol";
     import { onMount } from "svelte";
+    import { writable } from 'svelte/store';
 
     import { staticGtfsDataStore, realtimeGtfsDataStore, mapPositionStore, settingsStore } from '../../../../stores';
     import { adjustHexColorBrightness } from '$lib/utils';
@@ -24,7 +25,7 @@
     let higlightMarker: L.CircleMarker | undefined = undefined;
 
     let selectedVehicle: Vehicle;
-    let stopTimesDialogOpen = false;
+    const stopTimesDialogOpen = writable<boolean>(false);
 
     const stopIcon = L.icon({
         iconUrl: stopIconUrl,
@@ -218,7 +219,7 @@
         // Add an event listener to the button for opening stop times dialog
         const buttonElement = document.getElementById('open-stop-times-dialog-button') as HTMLButtonElement;
         if (!buttonElement) {console.warn("Failed to find vehicle popup button"); return};
-        buttonElement.onclick = function() {stopTimesDialogOpen = true};
+        buttonElement.onclick = function() {$stopTimesDialogOpen = true};
 
     }
 
