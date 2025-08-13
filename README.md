@@ -17,7 +17,9 @@
 
 # Screenshots
 <p align="center">
-    [TODO: screenshots here]
+    <img alt="A map showing the position of different public transport vehicles" src=".README_ASSETS/screenshots/track.webp" width="250" />
+    <img alt="A dialog showing the departure times for each stop of a specific selected bus" src=".README_ASSETS/screenshots/timetable.webp" width="250" />
+    <img alt="A map showing a street with a bus stop on each side, with one side highlighted to show the user on which side of the street to wait for the bus" src=".README_ASSETS/screenshots/stop_highlight.webp" width="250" />
 </p>
 
 # Building
