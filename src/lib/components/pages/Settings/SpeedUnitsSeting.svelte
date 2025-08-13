@@ -4,9 +4,11 @@
     import RadioGroupSettingTemplate from "./RadioGroupSettingTemplate.svelte";
 
     const options = [
-        {value: 'kmph', label: 'settings.speedUnitsSetting.kmph'},
-        {value: 'mph', label: 'settings.speedUnitsSetting.mph'},
-        {value: 'mps', label: 'settings.speedUnitsSetting.mps'}
+        {value: 'kilometersPerHour', label: 'settings.speedUnitsSetting.kilometersPerHour'},
+        {value: 'milesPerHour', label: 'settings.speedUnitsSetting.milesPerHour'},
+        {value: 'metersPerSecond', label: 'settings.speedUnitsSetting.metersPerSecond'},
+        {value: 'knots', label: 'settings.speedUnitsSetting.knots'},
+        {value: 'feetPerDay', label: 'settings.speedUnitsSetting.feetPerDay'},        
     ] as const;
 </script>
 

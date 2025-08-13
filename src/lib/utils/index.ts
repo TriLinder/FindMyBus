@@ -43,9 +43,11 @@ export function dateToTimeString(date: Date): string {
 
 export function speedInUsersPreferredUnitsString(speedInMetersPerSecond: number): string {
     switch(get(settingsStore).speedUnits) {
-        case('kmph'): return `${Math.round(speedInMetersPerSecond * 3.6)} km/h`;
-        case('mph'): return `${Math.round(speedInMetersPerSecond * 2.2369)} mph`;
-        case('mps'): return `${Math.round(speedInMetersPerSecond)} m/s`;
+        case('kilometersPerHour'): return `${Math.round(speedInMetersPerSecond * 3.6)} km/h`;
+        case('milesPerHour'): return `${Math.round(speedInMetersPerSecond * 2.2369)} mph`;
+        case('metersPerSecond'): return `${Math.round(speedInMetersPerSecond)} m/s`;
+        case('knots'): return `${Math.round(speedInMetersPerSecond * 1.94384)} kn`;
+        case('feetPerDay'): return `${Math.round(speedInMetersPerSecond * 283465)} ft/d`;
     }
 }
 

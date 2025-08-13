@@ -28,7 +28,7 @@ type Settings = {
     realtimeGtfsUrl: string;
     realtimeGtfsUpdateInterval: number;
     language: 'en' | 'cs';
-    speedUnits: 'kmph' | 'mph' | 'mps';
+    speedUnits: 'kilometersPerHour' | 'milesPerHour' | 'metersPerSecond' | 'knots' | 'feetPerDay';
     timeFormat: '12hour' | '24hour';
     darkMode: 'on' | 'off' | 'system';
     theme: 'ios' | 'material';
@@ -70,7 +70,7 @@ export const settingsStore = objectStore<Settings>({
         realtimeGtfsUrl: '',
         realtimeGtfsUpdateInterval: 5,
         language: 'en',
-        speedUnits: 'kmph',
+        speedUnits: 'kilometersPerHour',
         timeFormat: '24hour',
         darkMode: 'off',
         theme: 'material',

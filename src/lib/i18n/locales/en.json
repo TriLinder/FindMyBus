@@ -91,9 +91,11 @@
         },
         "speedUnitsSetting": {
             "label": "Speed units",
-            "kmph": "kilometers per hour",
-            "mph": "miles per hour",
-            "mps": "meters per second"
+            "kilometersPerHour": "kilometers per hour",
+            "milesPerHour": "miles per hour",
+            "metersPerSecond": "meters per second",
+            "knots": "knots",
+            "feetPerDay": "feet per day"
         },
         "timeFormatSetting": {
             "label": "Time format",

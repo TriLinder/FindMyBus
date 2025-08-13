@@ -87,9 +87,11 @@
         },
         "speedUnitsSetting": {
             "label": "Jednotky rychlosti",
-            "kmph": "kilometry za hodinu",
-            "mph": "míle za hodinu",
-            "mps": "metry za sekundu"
+            "kilometersPerHour": "kilometry za hodinu",
+            "milesPerHour": "míle za hodinu",
+            "metersPerSecond": "metry za sekundu",
+            "knots": "uzly",
+            "feetPerDay": "stopy za den"
         },
         "timeFormatSetting": {
             "label": "Formát času",
