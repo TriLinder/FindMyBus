@@ -28,12 +28,13 @@ export type Route = {
 export type Trip = {
     id: string;
     routeId: string;
-    stopTimes: {
-        stopId: string;
-        departureTime: string;
-    }[];
     headsign: string | null;
 }
+
+export type StopTimes = {
+    stopId: string;
+    departureTime: string;
+}[];
 
 export type Vehicle = {
     id: string;

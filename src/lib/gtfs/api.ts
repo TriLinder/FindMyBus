@@ -5,7 +5,10 @@ import Papa from 'papaparse';
 import GtfsRealtimeBindings from "gtfs-realtime-bindings";
 
 import { staticGtfsDataStore, realtimeGtfsDataStore } from '../../stores';
-import type { Stop, Route, Trip, Vehicle } from './types';
+import type { Stop, Route, Trip, StopTimes, Vehicle } from './types';
+
+import { getStopTimesDataKeyFromTripId } from '$lib/utils';
+import { saveDataInChunks } from '$lib/file-storage';
 
 const USER_AGENT = 'findmybus-app';
 
@@ -186,27 +189,50 @@ export async function fetchStaticGtfs(url: string) {
         trips[record.trip_id] = {
             id: record.trip_id,
             routeId: record.route_id,
-            stopTimes: [], // this gets filled in while parsing the stop times file next
             headsign: record.trip_headsign || null
         };
     }
 
-    // parse stop times (per trip)
+    // parse stop times (and save them per trip id)
     const stopTimesFile = parseUnzipedCsvFile(files['stop_times.txt']) as StopTimesFile;
     console.log(`Individual stop time records: ${stopTimesFile.length}`);
 
     stopTimesFile.sort((a, b) => a.stop_sequence - b.stop_sequence); // sort the individual stops by their sequence
 
+    const stopTimesPerTrip: Record<string, StopTimes> = {};
+
     for (const stopTime of stopTimesFile) {
         if (!stopTime.departure_time && !stopTime.end_pickup_drop_off_window) {continue};
+        const departureTime = (stopTime.departure_time || stopTime.end_pickup_drop_off_window) as string; // one of them, has to be defined (acoording to the spec and also checked above)
 
-        try {
-            trips[stopTime.trip_id].stopTimes.push({
-                stopId: stopTime.stop_id,
-                departureTime: (stopTime.departure_time || stopTime.end_pickup_drop_off_window) as string // one of them, has to be defined (acoording to the spec and also checked above)
-            });
-        } catch {}
+        if (!stopTimesPerTrip[stopTime.trip_id]) {
+            stopTimesPerTrip[stopTime.trip_id] = [];
+        }
+
+        stopTimesPerTrip[stopTime.trip_id].push({
+            stopId: stopTime.stop_id,
+            departureTime: departureTime
+        });
     }
+
+    console.log(`Saved stop times for ${Object.keys(stopTimesPerTrip).length} trips.`);
+
+    // as the stop time records are by far the largest in size, and also not needed until a specific vehicle is clicked on,
+    // we save them in their own files, bunched together based on the first character of a hash of their ID,
+    // so they're evenly distributed across the files, even if the actual ID numbers aren't
+    const tripStopTimesPerKey: Record<string, Record<string, StopTimes>> = {};
+
+    for (const [tripId, stopTimes] of Object.entries(stopTimesPerTrip)) {
+        const key = await getStopTimesDataKeyFromTripId(tripId);
+
+        if (!tripStopTimesPerKey[key]) {
+            tripStopTimesPerKey[key] = {};
+        }
+
+        tripStopTimesPerKey[key][tripId] = stopTimes;
+    }
+
+    console.log(`Split stop times under ${Object.keys(tripStopTimesPerKey).length} keys.`);
 
     // save the parsed info
     staticGtfsDataStore.set({
@@ -218,6 +244,14 @@ export async function fetchStaticGtfs(url: string) {
         trips: trips
     });
 
+    console.log("Saved to store.");
+
+    // skip saving the stop times on web, due to localStorage size limits
+    for (const [key, stopTimeRecords] of Object.entries(tripStopTimesPerKey)) {
+        await saveDataInChunks(key, JSON.stringify(stopTimeRecords));
+    }
+
+    console.log("Saved stop times to data storage.");
     console.log("Parsing and saving static GTFS done.");
 }
 

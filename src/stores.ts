@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store';
 import { objectStore, arrayStore } from 'svelte-capacitor-store';
 
-import { saveData, loadData } from '$lib/file-storage';
+import { saveDataInChunks, loadDataInChunks } from '$lib/file-storage';
 
 import L from "leaflet";
 
@@ -102,7 +102,7 @@ export const currentPageStore = writable<Page>('loading');
 // this gets called from the Loading page on first load
 export async function loadStaticGtfsStoreData() {
     try {
-        staticGtfsDataStore.set(JSON.parse(await loadData('com.jakubhlavacek.staticGtfsStore')) as StaticGtfsData);
+        staticGtfsDataStore.set(JSON.parse(await loadDataInChunks('com.jakubhlavacek.staticGtfsStore')) as StaticGtfsData);
     } catch {
         console.warn('Failed to load static GTFS data from storage');
     }
@@ -116,7 +116,7 @@ async function saveStaticGtfsStoreData(value: StaticGtfsData) {
 
     // save the data
     const data = JSON.stringify(value);
-    await saveData('com.jakubhlavacek.staticGtfsStore', data);
+    await saveDataInChunks('com.jakubhlavacek.staticGtfsStore', data);
 }
 
 staticGtfsDataStore.subscribe(saveStaticGtfsStoreData);
