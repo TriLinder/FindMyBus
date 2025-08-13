@@ -39,7 +39,7 @@
         // Check which stops should be drawn (none, if not zoomed-in enough in the first place)
         const stopsToBeDrawn: Stop[] = [];
 
-        if (zoomLevel >= 13) {
+        if (zoomLevel >= 14) {
             for (const stop of Object.values($staticGtfsDataStore.stops)) {
                 // Is the station within bounds of the map? Avoid drawing it unenecessarily
                 // (this can actually help out a ton with performance)
