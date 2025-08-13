@@ -1,0 +1,8 @@
+An app to view public transport vehicle positions on a map in real time, utilizing a GTFS Realtime feed.
+
+Features:
+<ul>
+  <li>Visualize GTFS Realtime feeds on a map</li>
+  <li>See live positions of vehicles and extra information about them, such as their timetables</li>
+  <li>Light data usage</li>
+</ul>
