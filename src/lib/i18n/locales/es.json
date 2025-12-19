@@ -2,141 +2,141 @@
     "generic": {
         "error": "Error",
         "ok": "Ok",
-        "confirm": "Confirm",
-        "pleaseWait": "Please wait. This may take some time.",
-        "loading": "Loading"
+        "confirm": "Confirmar",
+        "pleaseWait": "Aguarde por favor, podría tardar un rato.",
+        "loading": "Cargando"
     },
     "main": {
-        "title": "Vehicle positions",
+        "title": "Posiciones de los vehículos",
         "infobar": {
-            "lastRefreshed": "Last refreshed {value} seconds ago.",
-            "fetching": "Refreshing...",
-            "error": "Failed to load realtime GTFS feed."
+            "lastRefreshed": "Última actualización hace {value} segundos.",
+            "fetching": "Actualizando...",
+            "error": "Fallo al cargar el canal GTFS en tiempo real."
         }
     },
     "map": {
         "errors": {
-            "failedToGeneratePopupContent": "Failed to generate popup content."
+            "failedToGeneratePopupContent": "Fallo al generar el contenido de la ventana emergente."
         },
         "vehiclePopup": {
             "routeType": {
-                "tram": "Tram",
+                "tram": "Tranvía",
                 "subway": "Metro",
-                "train": "Train",
+                "train": "Tren",
                 "bus": "Bus",
                 "ferry": "Ferry",
-                "cableTram": "Cable tram",
-                "cableCar": "Cable car",
+                "cableTram": "Tranvía por cable",
+                "cableCar": "Coche por cable",
                 "funicular": "Funicular",
-                "trolleybus": "Trolleybus",
+                "trolleybus": "Trolebus",
                 "monorail": "Monorail"
             },
             "errors": {
-                "timeout": "Failed to load popup content in time.",
-                "noPosition": "No position information for this vehicle.",
-                "unknownTrip": "Unknown trip. Consider refreshing static GTFS data?",
-                "unknownRoute": "No trip information. Consider refreshing static GTFS data?"
+                "timeout": "Fallo al cargar a tiempo el contenido del cuadro emergente.",
+                "noPosition": "Sin información sobre la posición de este vehículo.",
+                "unknownTrip": "Ruta desconocida. ¿Crees que deberías actualizar los datos GTFS estáticos?",
+                "unknownRoute": "Sin información de la ruta.¿Sería de ayuda actualizar los datos GTFS estáticos"
             }
         },
         "stopTimesDialog": {
-            "title": "Timetable",
-            "stop": "Stop",
-            "departureTime": "Departure time",
-            "unknownStop": "Unknown stop",
+            "title": "Horario",
+            "stop": "Parada",
+            "departureTime": "Hora de salida",
+            "unknownStop": "Parada desconocida",
             "errors": {
-                "failedToLoad": "Failed to load timetable"
+                "failedToLoad": "Fallo al cargar el horario"
             }
         }
     },
     "onboarding": {
-        "title": "Welcome! 👋",
-        "text": "<b>Welcome to FindMyBus!</b><br><br>This app allows you to view public transport vehicles on a map in realtime. To do this, the app utilizes a realtime GTFS feed provided by many transit agencies around the world. Check if your local transit agency provides the feed as well, and if so, provide the URL of the static and realtime GTFS feed below. If your agency provides multiple real-time feeds, choose the one that includes vehicle position data.<br><br>Please note that FindMyBus currently only supports version 2.0 of the GTFS spec but also makes some extra assumptions about the contents of the GTFS feed. However, no issues were encountered while testing functionality with various transit agencies.<br><br>FindMyBus is open-source and made with ❤️.",
-        "settings": "Initial set-up",
-        "finishButton": "Let's go!"
+        "title": "Bienvenida! 👋",
+        "text": "<b>Bienvenida a FindMyBus!</b><br><br>Esta app te permite ver los vehículos de transporte público en tiempo real en un mapa. Para ello, la app utiliza el canal GTFS que muchas empresas de transporte en todo el mundo utilizan. Comprueba si tu empresa de transporte local también utiliza este canal y si es así escribe aquí abajo la URL del canal estático y en tiempo real. Si tu agencia proporciona varios canales en tiempo real, selecciona el que incluya los datos de posición de los vehículos.<br><br>Ten en cuenta que FindMyBus actualmente sólo es compatible con la versión 2.0 de la especificación GTFS pero también presupone algunos contenidos del canal GTFS. Aún así, no hemos encontrado problemas al realizar las pruebas de la aplicación con varias empresas de transporte.<br><br>FindMyBus es código abierto y hecha con ❤️.",
+        "settings": "Configuración inicial",
+        "finishButton": "Vamos!"
     },
     "forceStaticGtfsUpdate": {
-        "title": "Static GTFS data update required",
-        "text": "Unfortunately, the stored version of static GTFS data is outdated and must be refreshed. This is likely due to an app update requiring a different format of data than stored.<br><br>Please continue by pressing the refresh button below. Please note that this will likely use more bandwidth than the app does usually."
+        "title": "Se requiere actualizar los datos GTFS estáticos",
+        "text": "Desafortunadamente, la versión guardada de los datos GTFS estáticos deben actualizarse. Probablemente se deba a una actualización de la app que requiere un formato diferente de los datos.<br><br>Por favor, pulsa en el botón inferior para actualizar. Ten en cuenta que esto usará más datos de los que la app consume habitualmente."
     },
     "settings": {
-        "title": "Settings",
-        "gtfsFeed": "GTFS Feed",
+        "title": "Configuración",
+        "gtfsFeed": "Canal GTFS",
         "staticGtfsFeedSetting": {
-            "label": "Static GTFS feed URL",
-            "set": "Set static GTFS feed URL",
-            "refresh": "Refresh static GTFS data",
+            "label": "URL del canal GTFS estático",
+            "set": "Configurar la URL del canal GTFS estático",
+            "refresh": "Actualizar datos del canal GTFS estático",
             "dialog": {
-                "title": "Fetching and parsing data",
+                "title": "Obteniendo y procesando los datos",
                 "errors": {
-                    "failed": "Fetching GTFS static data failed. Please make sure you have provided a valid GTFS feed URL and are connected to the internet."
+                    "failed": "Ha fallado la obtención de los datos GTFS estáticos. Comprueba que has proporcionado una URL válida y que tienes conexión a internet."
                 }
             }
         },
         "realtimeGtfsFeedSetting": {
-            "label": "Realtime GTFS feed URL",
-            "set": "Set realtime GTFS feed URL",
+            "label": "URL del canal GTFS en tiempo real",
+            "set": "Configurar la URL del canal GTFS en tiempo real",
             "dialog": {
-                "title": "Validating feed",
+                "title": "Validando el canal",
                 "errors": {
-                    "failed": "Fetching GTFS realtime data failed. Please make sure you have provided a valid GTFS feed URL and are connected to the internet."
+                    "failed": "Ha fallado la obtención de datos del canal GTFS en tiempo real. Comprueba que has proporcionado una URL válida y que tienes conexión a internet."
                 }
             }
         },
         "realtimeGtfsUpdateIntervalSetting": {
-            "label": "Update realtime GTFS feed every {value} seconds."
+            "label": "Actualizar datos del canal GTFS en tiempo real cada {value} segundos."
         },
-        "visual": "Visual",
+        "visual": "Ajustes",
         "languageSettingSetting": {
-            "label": "Language"
+            "label": "Idioma"
         },
         "speedUnitsSetting": {
-            "label": "Speed units",
-            "kilometersPerHour": "kilometers per hour",
-            "milesPerHour": "miles per hour",
-            "metersPerSecond": "meters per second",
-            "knots": "knots",
-            "feetPerDay": "feet per day"
+            "label": "Unidades de velocidad",
+            "kilometersPerHour": "kilómetros por hora",
+            "milesPerHour": "millas por hora",
+            "metersPerSecond": "metros por segundo",
+            "knots": "nudos",
+            "feetPerDay": "pies por día"
         },
         "timeFormatSetting": {
-            "label": "Time format",
-            "12hour": "12-hour format (01:00 PM)",
-            "24hour": "24-hour format (13:00)"
+            "label": "Formato de la hora",
+            "12hour": "formato de 12-horas (01:00 PM)",
+            "24hour": "formato de 24-horas (13:00)"
         },
         "darkModeSetting": {
-            "label": "Dark mode",
+            "label": "Modo oscuro",
             "on": "On",
             "off": "Off",
-            "system": "System"
+            "system": "Sistema"
         },
         "themeSetting": {
-            "label": "Theme",
+            "label": "Decorado",
             "ios": "iPhone",
             "material": "Android"
         },
         "showVehicleMarkerLabelsSetting": {
-            "label": "Show vehicle text labels on map"
+            "label": "Mostrar etiquetas de texto del vehículo en el mapa"
         },
         "vehicleMarkerBackgroundBrightnessSetting": {
-            "label": "Vehicle marker background brightness ({value}%)"
+            "label": "Brillo del fondo del marcador del vehículo ({value}%)"
         },
         "mapSourceUrl": {
-            "label": "Map source URL (advanced users only)",
-            "set": "Set custom",
-            "reset": "Reset to default"
+            "label": "URL de origen del mapa (para usuarias expertas)",
+            "set": "Establecer propia",
+            "reset": "Restablecer la original"
         }
     },
     "about": {
-        "title": "About app",
+        "title": "Acerca de la app",
         "links": {
-            "myHomepage": "Check out more of my work",
-            "sourceCode": "Source code"
+            "myHomepage": "Mira otros trabajos míos",
+            "sourceCode": "Código fuente"
         },
-        "version": "Version: {value}"
+        "version": "Versión: {value}"
     },
     "dependencyAcknowledgments": {
-        "title": "Dependency acknowledgments",
-        "version": "Version: {value}",
-        "license": "License: {value}",
-        "more": "More"
+        "title": "Reconocimiento de dependencias",
+        "version": "Versión: {value}",
+        "license": "Licencia: {value}",
+        "more": "Más"
     }
 }
