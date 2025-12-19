@@ -1,0 +1,142 @@
+{
+    "generic": {
+        "error": "Error",
+        "ok": "Ok",
+        "confirm": "Confirm",
+        "pleaseWait": "Please wait. This may take some time.",
+        "loading": "Loading"
+    },
+    "main": {
+        "title": "Vehicle positions",
+        "infobar": {
+            "lastRefreshed": "Last refreshed {value} seconds ago.",
+            "fetching": "Refreshing...",
+            "error": "Failed to load realtime GTFS feed."
+        }
+    },
+    "map": {
+        "errors": {
+            "failedToGeneratePopupContent": "Failed to generate popup content."
+        },
+        "vehiclePopup": {
+            "routeType": {
+                "tram": "Tram",
+                "subway": "Metro",
+                "train": "Train",
+                "bus": "Bus",
+                "ferry": "Ferry",
+                "cableTram": "Cable tram",
+                "cableCar": "Cable car",
+                "funicular": "Funicular",
+                "trolleybus": "Trolleybus",
+                "monorail": "Monorail"
+            },
+            "errors": {
+                "timeout": "Failed to load popup content in time.",
+                "noPosition": "No position information for this vehicle.",
+                "unknownTrip": "Unknown trip. Consider refreshing static GTFS data?",
+                "unknownRoute": "No trip information. Consider refreshing static GTFS data?"
+            }
+        },
+        "stopTimesDialog": {
+            "title": "Timetable",
+            "stop": "Stop",
+            "departureTime": "Departure time",
+            "unknownStop": "Unknown stop",
+            "errors": {
+                "failedToLoad": "Failed to load timetable"
+            }
+        }
+    },
+    "onboarding": {
+        "title": "Welcome! 👋",
+        "text": "<b>Welcome to FindMyBus!</b><br><br>This app allows you to view public transport vehicles on a map in realtime. To do this, the app utilizes a realtime GTFS feed provided by many transit agencies around the world. Check if your local transit agency provides the feed as well, and if so, provide the URL of the static and realtime GTFS feed below. If your agency provides multiple real-time feeds, choose the one that includes vehicle position data.<br><br>Please note that FindMyBus currently only supports version 2.0 of the GTFS spec but also makes some extra assumptions about the contents of the GTFS feed. However, no issues were encountered while testing functionality with various transit agencies.<br><br>FindMyBus is open-source and made with ❤️.",
+        "settings": "Initial set-up",
+        "finishButton": "Let's go!"
+    },
+    "forceStaticGtfsUpdate": {
+        "title": "Static GTFS data update required",
+        "text": "Unfortunately, the stored version of static GTFS data is outdated and must be refreshed. This is likely due to an app update requiring a different format of data than stored.<br><br>Please continue by pressing the refresh button below. Please note that this will likely use more bandwidth than the app does usually."
+    },
+    "settings": {
+        "title": "Settings",
+        "gtfsFeed": "GTFS Feed",
+        "staticGtfsFeedSetting": {
+            "label": "Static GTFS feed URL",
+            "set": "Set static GTFS feed URL",
+            "refresh": "Refresh static GTFS data",
+            "dialog": {
+                "title": "Fetching and parsing data",
+                "errors": {
+                    "failed": "Fetching GTFS static data failed. Please make sure you have provided a valid GTFS feed URL and are connected to the internet."
+                }
+            }
+        },
+        "realtimeGtfsFeedSetting": {
+            "label": "Realtime GTFS feed URL",
+            "set": "Set realtime GTFS feed URL",
+            "dialog": {
+                "title": "Validating feed",
+                "errors": {
+                    "failed": "Fetching GTFS realtime data failed. Please make sure you have provided a valid GTFS feed URL and are connected to the internet."
+                }
+            }
+        },
+        "realtimeGtfsUpdateIntervalSetting": {
+            "label": "Update realtime GTFS feed every {value} seconds."
+        },
+        "visual": "Visual",
+        "languageSettingSetting": {
+            "label": "Language"
+        },
+        "speedUnitsSetting": {
+            "label": "Speed units",
+            "kilometersPerHour": "kilometers per hour",
+            "milesPerHour": "miles per hour",
+            "metersPerSecond": "meters per second",
+            "knots": "knots",
+            "feetPerDay": "feet per day"
+        },
+        "timeFormatSetting": {
+            "label": "Time format",
+            "12hour": "12-hour format (01:00 PM)",
+            "24hour": "24-hour format (13:00)"
+        },
+        "darkModeSetting": {
+            "label": "Dark mode",
+            "on": "On",
+            "off": "Off",
+            "system": "System"
+        },
+        "themeSetting": {
+            "label": "Theme",
+            "ios": "iPhone",
+            "material": "Android"
+        },
+        "showVehicleMarkerLabelsSetting": {
+            "label": "Show vehicle text labels on map"
+        },
+        "vehicleMarkerBackgroundBrightnessSetting": {
+            "label": "Vehicle marker background brightness ({value}%)"
+        },
+        "mapSourceUrl": {
+            "label": "Map source URL (advanced users only)",
+            "set": "Set custom",
+            "reset": "Reset to default"
+        }
+    },
+    "about": {
+        "title": "About app",
+        "links": {
+            "myHomepage": "Check out more of my work",
+            "sourceCode": "Source code"
+        },
+        "version": "Version: {value}"
+    },
+    "dependencyAcknowledgments": {
+        "title": "Dependency acknowledgments",
+        "version": "Version: {value}",
+        "license": "License: {value}",
+        "more": "More"
+    }
+}
