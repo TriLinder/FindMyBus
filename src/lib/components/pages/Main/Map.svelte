@@ -231,7 +231,7 @@
 
         let mapSourceAttribution: string;
         if ($settingsStore.mapSourceUrl.includes('tile.openstreetmap.org/')) {
-            mapSourceAttribution = '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+            mapSourceAttribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
         } else {
             mapSourceAttribution = '&copy; Custom map source';
         }
