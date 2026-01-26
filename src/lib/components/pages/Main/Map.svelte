@@ -271,7 +271,7 @@
     :global(.vehicle-marker-arrow) {
         width: 30px;
         height: 30px;
-        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        clip-path: polygon(50% 0%, 0% 100%, 50% 80%, 100% 100%);
     }
 
     :global(.vehicle-marker-label) {
