@@ -24,7 +24,7 @@ function base64ToUint8Array(base64: string): Uint8Array {
 
 function parseUnzipedCsvFile(fileData: Uint8Array): Array<Record<string, string | number>> {
     const string = strFromU8(fileData);
-    const parsed = Papa.parse(string, {header: true, skipEmptyLines: true, dynamicTyping: true});
+    const parsed = Papa.parse(string, { header: true, skipEmptyLines: true });
     return parsed.data as Array<Record<string, string>>;
 }
 
@@ -41,9 +41,9 @@ type AgencyFile = {
 type StopsFile = {
     stop_id: string;
     stop_name: string;
-    stop_lat: number;
-    stop_lon: number;
-    location_type: number;
+    stop_lat: string;
+    stop_lon: string;
+    location_type: string;
     parent_station: string;
 }[];
 
@@ -68,7 +68,7 @@ type StopTimesFile = {
     departure_time: string | undefined;
     end_pickup_drop_off_window: string | undefined;
     stop_id: string;
-    stop_sequence: number;
+    stop_sequence: string;
 }[];
 
 export async function fetchStaticGtfs(url: string) {
@@ -116,11 +116,11 @@ export async function fetchStaticGtfs(url: string) {
 
     for (const record of stopsFile) {
         const locationTypeMap = {
-            0: 'stop',
-            1: 'station',
-            2: 'door',
-            3: 'generic',
-            4: 'boardingArea',
+            '0': 'stop',
+            '1': 'station',
+            '2': 'door',
+            '3': 'generic',
+            '4': 'boardingArea',
         } as const;
 
         const parentStopId = record.parent_station || null;
@@ -132,10 +132,10 @@ export async function fetchStaticGtfs(url: string) {
             id: record.stop_id,
             name: record.stop_name,
             location: {
-                latitude: record.stop_lat,
-                longitude: record.stop_lon
+                latitude: Number(record.stop_lat),
+                longitude: Number(record.stop_lon)
             },
-            type: record.location_type ? locationTypeMap[record.location_type as keyof typeof locationTypeMap] : 'stop',
+            type: locationTypeMap[record.location_type as keyof typeof locationTypeMap] || 'stop',
             parentStopId: parentStopId || null,
             hasChildren: false, // this is actually set in the next loop
         };
@@ -197,7 +197,8 @@ export async function fetchStaticGtfs(url: string) {
     const stopTimesFile = parseUnzipedCsvFile(files['stop_times.txt']) as StopTimesFile;
     console.log(`Individual stop time records: ${stopTimesFile.length}`);
 
-    stopTimesFile.sort((a, b) => a.stop_sequence - b.stop_sequence); // sort the individual stops by their sequence
+    // sort the individual stops by their sequence
+    stopTimesFile.sort((a, b) => Number(a.stop_sequence) - Number(b.stop_sequence));
 
     const stopTimesPerTrip: Record<string, StopTimes> = {};
 
