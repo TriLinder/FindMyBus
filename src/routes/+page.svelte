@@ -3,7 +3,6 @@
     import "@fontsource/roboto";
 
     import { onMount } from "svelte";
-    import { SafeArea } from '@capacitor-community/safe-area';
     import { currentPageStore, settingsStore } from "../stores";
     import { App as CapacitorApp } from "@capacitor/app";
 
@@ -42,16 +41,6 @@
     }
 
     onMount(function() {
-        SafeArea.enable({
-            config: {
-                customColorsForSystemBars: true,
-                statusBarColor: '#00000000', // transparent
-                statusBarContent: 'light',
-                navigationBarColor: '#00000000', // transparent
-                navigationBarContent: 'light',
-            }
-        });
-
         CapacitorApp.addListener('backButton', goBack);
     });
 </script>
