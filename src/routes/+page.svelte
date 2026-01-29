@@ -79,7 +79,7 @@
 {/if}
 
 {#key [useDarkMode, theme]}
-    <div class:ios-lightmode={!useDarkMode && theme === 'ios'} class:safe-areas={!ignoreSafeAreaPages.includes($currentPageStore)} style:background-color={safeAreaPaddingColor}>
+    <div class:dark={useDarkMode} class:ios-lightmode={!useDarkMode && theme === 'ios'} class:safe-areas={!ignoreSafeAreaPages.includes($currentPageStore)} style:background-color={safeAreaPaddingColor}>
         <App {theme} safeAreas={false} dark={useDarkMode}>
             <Page>
                 {#if $currentPageStore === 'main'}
