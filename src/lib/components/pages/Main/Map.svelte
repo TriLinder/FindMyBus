@@ -245,10 +245,14 @@
         new LocateControl({keepCurrentZoomLevel: true, showPopup: false, locateOptions: {watch: true}, onLocationError: function() {}}).addTo(map).start();
 
         // Event handlers
-        realtimeGtfsDataStore.subscribe(function(value) {updateMarkers()});
         map.addEventListener("zoomend", onMapInteraction);
         map.addEventListener("moveend", onMapInteraction);
     });
+
+    // Update markers on data change
+    $: if (map && $realtimeGtfsDataStore) {
+        updateMarkers();
+    }
 </script>
 
 <style>
